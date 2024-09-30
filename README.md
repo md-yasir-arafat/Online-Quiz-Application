@@ -3,7 +3,7 @@
 This will be a Multiplayer Quiz App. 
 
 On the first step, we want to do it locally. 
- t
+
 Then we like to implement Kotlin and Firebase.
 
 We are using intellij community edition for our work. 
