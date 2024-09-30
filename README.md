@@ -1,7 +1,7 @@
 # Online-Quiz-Application
 
-This will a Multiplayer Quiz App. 
+This will be a Multiplayer Quiz App. 
 
-On first step we want to do it locally. 
+On the first step, we want to do it locally. 
 
-Then we like to impliment kotlin and firebase.
+Then we like to implement Kotlin and Firebase.
