@@ -1,4 +1,4 @@
-package com.quizapp.quizapp;
+package com.quizapp;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
