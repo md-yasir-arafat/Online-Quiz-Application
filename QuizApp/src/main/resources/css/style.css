@@ -1,0 +1,47 @@
+/* Style the root pane */
+.root {
+    -fx-background-color: lightblue;
+}
+
+/*
+.header {
+    -fx-padding: 10 20%; /* top-bottom, right-left */
+}
+*/
+
+/* Style buttons */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Style labels */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: darkblue;
+}
+
+.logo-text {
+    -fx-font-family: "Cooper Black"; /* Change to your desired font */
+    -fx-font-size: 25;      /* Adjust the size as needed */
+    -fx-font-weight: Bold;
+    -fx-text-fill: #000000;   /* Change text color if needed */
+}
+
+/* styles.css */
+/* styles.css */
+.grid-pane {
+    -fx-margin-top: 100;
+    -fx-padding: 150 70; /* Set padding: 0 top/bottom, 30 left/right */
+    -fx-border-radius: 40; /* Set border radius */
+    -fx-border-color: #D6F7E7; /* Set border color */
+    -fx-border-width: 4; /* Set border width */
+}
+
+
+.text-field {
+    -fx-padding: 10 20;
+    -fx-border-radius: 20;
+}
+
