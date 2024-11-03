@@ -1,24 +1,24 @@
 /* Style the root pane */
 .root {
-    -fx-background-color: lightblue;
+    -fx-background-color: White;
 }
 
-/*
-.header {
-    -fx-padding: 10 20%; /* top-bottom, right-left */
+
+#button {
+
 }
-*/
 
 /* Style buttons */
 .button {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-font-size: 14;
+    -fx-border-radius: 20;
 }
 
 /* Style labels */
 .label {
-    -fx-font-size: 16px;
+    -fx-font-size: 16;
     -fx-text-fill: darkblue;
 }
 
@@ -31,11 +31,19 @@
 
 /* styles.css */
 /* styles.css */
-.grid-pane {
+.signInForm {
     -fx-margin-top: 100;
     -fx-padding: 150 70; /* Set padding: 0 top/bottom, 30 left/right */
     -fx-border-radius: 40; /* Set border radius */
-    -fx-border-color: #D6F7E7; /* Set border color */
+    -fx-border-color: #63a66d; /* Set border color */
+    -fx-border-width: 4; /* Set border width */
+}
+
+.signUpForm {
+    -fx-margin-top: 100;
+    -fx-padding: 80 50; /* Set padding: 0 top/bottom, 30 left/right */
+    -fx-border-radius: 40; /* Set border radius */
+    -fx-border-color: #63a66d; /* Set border color */
     -fx-border-width: 4; /* Set border width */
 }
 

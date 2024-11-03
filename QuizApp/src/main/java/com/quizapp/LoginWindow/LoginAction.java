@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.*;
+
 public class LoginAction {
 
     private final TextField Username;
@@ -63,9 +65,9 @@ public class LoginAction {
     // Logic for handling login
     public int handleLogin(String username, String password) {
         // Simple validation for demonstration purposes
-        if (username.equals("teacher") && password.equals("password")) {
+        if (SignupAction.verifyCredentials(username,password,"/credential/teacher.csv")) {
             return 1;
-        } else if (username.equals("student") && password.equals("password")) {
+        } else if (SignupAction.verifyCredentials(username,password,"/credential/student.csv")) {
             return 2;
         } else {
             return 0;
@@ -97,6 +99,54 @@ class SignupAction{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    // Stuck with file but moving on signup page
+
+    public static boolean verifyCredentials(String username, String password, String filePath) {
+        String line;
+
+        File file = new File("credential/test.csv");
+        try {
+            // Attempt to create the file
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+
+                // Optionally, write some content to the new file
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write("username,password,id,full name,display name\n");
+                    writer.write("yasir,password,2412558042,Md. Yasir Arafat,Yasir\n");
+                    writer.write("alvee,password,241323,Alvee Ifteshum,Alvee\n");
+                    System.out.println("Content written to the file.");
+                }
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+        }
+//        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+//            while ((line = br.readLine()) != null) {
+//                // Splitting line into values
+//                String[] values = line.split(",");
+//
+//                // Assuming username is in the first position and password in the second
+//                String fileUsername = values[0].trim();
+//                String filePassword = values[1].trim();
+//
+//                // Checking if username and password match
+//                if (fileUsername.equals(username) && filePassword.equals(password)) {
+//                    return true; // Valid credentials
+//                }
+//            }
+//        } catch (IOException e) {
+//            System.out.println("An error occurred while reading the file.");
+//            e.printStackTrace();
+//        }
+
+        return false; // Invalid credentials
     }
 }
 

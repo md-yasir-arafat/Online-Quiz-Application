@@ -66,7 +66,7 @@ public class TeacherWindow {
         // Set up the scene
         Scene scene = new Scene(root, 800, 600);
         // Attach the external stylesheet
-        scene.getStylesheets().add(getClass().getResource("/css/teacherWindowHome.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/teacher.css").toExternalForm());
 
         teacherWindow.setScene(scene);
         teacherWindow.setTitle("Teacher Window - Quiz Application");

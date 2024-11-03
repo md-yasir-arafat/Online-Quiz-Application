@@ -59,7 +59,7 @@ public class LoginPageUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(header);  // Place header at the top
         borderPane.setCenter(vBox);
-        borderPane.setStyle("-fx-background-color: White;");
+        //borderPane.setStyle("-fx-background-color: White;");
 
         // Create a scene and add the CSS stylesheet
         Scene scene = new Scene(borderPane);
@@ -80,8 +80,10 @@ public class LoginPageUI extends Application {
         ImageView logoImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
         logoImage.setFitWidth(LOGO_WIDTH);
         logoImage.setFitHeight(LOGO_HEIGHT);
+
         Label lblLogo = new Label("Quize");
         lblLogo.getStyleClass().add("logo-text");
+
 
         // logo and app name aligning
         HBox gridLogo = new HBox(SPACING, logoImage, lblLogo);
@@ -90,20 +92,19 @@ public class LoginPageUI extends Application {
 
         // Sign Up button
         Button signUpButton = new Button("Sign up");
-        signUpButton.setId("signUpBtn");  // Set ID for lookup
         signUpButton.getStyleClass().add("button");
 
         SignupAction signupAction = new SignupAction(signUpButton);
 
         HBox header = new HBox(SPACING, gridLogo, signUpButton);
         header.setAlignment(Pos.CENTER);
-        header.setPadding(new Insets(15, 50, 2, 50));
+        header.setPadding(new Insets(15, 150, 2, 50)); //top, right, bottom, left
         return header;
     }
 
-    private GridPane frontPageImage(Stage primaryStage){
+    public static GridPane frontPageImage(Stage primaryStage){
         GridPane gridImage = new GridPane();
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(LoginPageUI.class.getResourceAsStream(BACKGROUND_IMAGE_PATH))));
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
             imageView.setFitWidth(newVal.doubleValue() * 0.4); // Set ImageView width to 40% of the screen width
         });
@@ -146,7 +147,7 @@ public class LoginPageUI extends Application {
         formLayout.add(forgotPassword, 0, 2);
         formLayout.add(loginBtn, 0, 3);
         formLayout.add(lblMessage, 0, 4);
-        formLayout.getStyleClass().add("grid-pane");
+        formLayout.getStyleClass().add("signInForm");
 
         // Delegate the event handling to LoginActions class
         LoginAction loginActions = new LoginAction(usernameField, passwordField, loginBtn, lblMessage);
@@ -156,7 +157,6 @@ public class LoginPageUI extends Application {
         // using outerVBox to center the innerVBox
         outerVBox.add(formLayout, 0 , 0);
         outerVBox.setAlignment(Pos.CENTER);
-
 
         return outerVBox;
     }
