@@ -1,6 +1,9 @@
 /* Style the root pane */
 .root {
-    -fx-background-color: White;
+    -fx-background-color: White; /* Background color */
+    -fx-font-family: "Arial"; /* Set the font family */
+    -fx-font-size: 14; /* Set the default font size */
+    -fx-text-fill: #333333; /* Set default text color */
 }
 
 
@@ -53,3 +56,18 @@
     -fx-border-radius: 20;
 }
 
+
+.sidebar {
+    -fx-margin-top: 200;
+    -fx-padding: 100 50 100 50; /* top right bottom left */
+    -fx-border-radius: 40; /* Set border radius */
+    -fx-border-color: #63a66d; /* Set border color */
+    -fx-border-width: 4; /* Set border width */
+}
+
+.development-label {
+    font-size: 24px; /* Set the font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center align text */
+    color: red; /* Change text color to red */
+}

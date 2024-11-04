@@ -1,91 +1,126 @@
 package com.quizapp.TeacherWindows;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class TeacherWindow {
+    private static final String LOGO_PATH = "/images/logo.png";
+    private static final double LOGO_WIDTH = 70;
+    private static final double LOGO_HEIGHT = 50;
+    private static final int SPACING = 10;
+    private static final String USER_PATH = "/images/user.png";
+    private static final String STYLESHEET_PATH = "/css/style.css";
 
     public void show() {
-        Stage teacherWindow = new Stage();
+        HBox header = createHeader();
+        VBox sideBar = sideBar();
 
-        // Sidebar
-        VBox sidebar = new VBox(10);
-        sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(200);
+        // Main content placeholder
+        GridPane content = new GridPane();
+        content.setAlignment(Pos.CENTER);
+        content.setPadding(new Insets(20));
 
-        Label titleLabel = new Label("Quiz");
-        titleLabel.getStyleClass().add("title-label");
+        // Add a label to indicate the page is under development
+        Label underDevelopmentLabel = new Label("This feature is under development.");
+        underDevelopmentLabel.getStyleClass().add("development-label"); // Optional: add style class
+        content.add(underDevelopmentLabel, 0, 0); // Add label at position (0, 0)
 
-        Button homeButton = new Button("Home");
-        Button takeQuizButton = new Button("Take Quiz");
-        Button responseButton = new Button("Responses");
+        // Layout setup using BorderPane
+        BorderPane mainLayout = new BorderPane();
+        mainLayout.setTop(header);       // Set header at the top
+        mainLayout.setLeft(sideBar);      // Set sidebar on the left
+        mainLayout.setCenter(content);    // Placeholder for main content in the center
 
-        // Set button styling
-        for (Button button : new Button[]{homeButton, takeQuizButton, responseButton}) {
-            button.getStyleClass().add("button");
-        }
+        Stage studentStage = new Stage();
+        Scene scene = new Scene(mainLayout);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(STYLESHEET_PATH)).toExternalForm());
 
-        sidebar.getChildren().addAll(titleLabel, homeButton, takeQuizButton, responseButton);
-
-        // Header
-        HBox header = new HBox();
-        header.getStyleClass().add("header");
-
-        Label userLabel = new Label("User");
-        userLabel.getStyleClass().add("user-label");
-        header.getChildren().add(userLabel);
-
-        // Main content area
-        VBox mainContent = new VBox(10);
-        mainContent.getStyleClass().add("main-content");
-
-        Label myCoursesLabel = new Label("My Courses");
-        myCoursesLabel.getStyleClass().add("course-label");
-
-        HBox courseBox = new HBox(20);
-        courseBox.setPadding(new Insets(20, 0, 0, 0));
-
-        // Example course card
-        VBox courseCard1 = createCourseCard("CSE 215", "Students Enrolled: 50", "Rating: 90", "Exams Taken: 5");
-        VBox courseCard2 = createCourseCard("", "", "", ""); // Empty card
-        VBox courseCard3 = createCourseCard("", "", "", ""); // Empty card
-
-        courseBox.getChildren().addAll(courseCard1, courseCard2, courseCard3);
-        mainContent.getChildren().addAll(myCoursesLabel, courseBox);
-
-        // Layout for the entire app
-        BorderPane root = new BorderPane();
-        root.setLeft(sidebar);
-        root.setTop(header);
-        root.setCenter(mainContent);
-
-        // Set up the scene
-        Scene scene = new Scene(root, 800, 600);
-        // Attach the external stylesheet
-        scene.getStylesheets().add(getClass().getResource("/css/teacher.css").toExternalForm());
-
-        teacherWindow.setScene(scene);
-        teacherWindow.setTitle("Teacher Window - Quiz Application");
-        teacherWindow.show();
+        studentStage.setScene(scene);
+        studentStage.setTitle("Teacher Dashboard");
+        studentStage.setMaximized(true);
+        studentStage.show();
     }
 
-    // Helper method to create a course card
-    private VBox createCourseCard(String courseName, String students, String rating, String exams) {
-        VBox courseCard = new VBox(10);
-        courseCard.getStyleClass().add("course-card");
+    // Create header with logo and user icon
+    public HBox createHeader() {
+        // Logo and Label
+        ImageView logoImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
+        logoImage.setFitWidth(LOGO_WIDTH);
+        logoImage.setFitHeight(LOGO_HEIGHT);
 
-        Label courseLabel = new Label(courseName);
-        Label studentsLabel = new Label(students);
-        Label ratingLabel = new Label(rating);
-        Label examsLabel = new Label(exams);
-        Label detailsButton = new Label("Details");
-        detailsButton.getStyleClass().add("details-button");
+        Label lblLogo = new Label("Quize");
+        lblLogo.getStyleClass().add("logo-text");
 
-        courseCard.getChildren().addAll(courseLabel, studentsLabel, ratingLabel, examsLabel, detailsButton);
-        return courseCard;
+        // Logo and app name alignment
+        HBox gridLogo = new HBox(SPACING, logoImage, lblLogo);
+        gridLogo.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(gridLogo, Priority.ALWAYS);
+
+        // User icon
+        ImageView userIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(USER_PATH))));
+        userIcon.setFitWidth(LOGO_WIDTH);
+        userIcon.setFitHeight(LOGO_HEIGHT);
+
+        HBox header = new HBox(SPACING, gridLogo, userIcon);
+        header.setAlignment(Pos.CENTER);
+        header.setPadding(new Insets(15, 150, 40, 50)); // top, right, bottom, left
+
+        return header;
     }
+
+    // Sidebar with navigation buttons
+    private VBox sideBar() {
+        VBox vBox = new VBox();
+
+        Button homebtn = new Button("Home");
+        homebtn.getStyleClass().add("sideButton");
+
+        Button makebtn = new Button("Make\nQuiz");
+        makebtn.getStyleClass().add("sideButton");
+
+        Button coursedbtn = new Button(" Your\nCourse");
+        coursedbtn.getStyleClass().add("sideButton");
+
+        Button leaderboard = new Button("Leaderboard");
+        leaderboard.getStyleClass().add("sideButton");
+
+        // Add buttons to vBox
+        vBox.getChildren().addAll(homebtn, makebtn, coursedbtn, leaderboard);
+
+        // Set spacing, padding, and alignment for VBox
+        vBox.setSpacing(20);       // Space between buttons
+        vBox.setAlignment(Pos.TOP_CENTER);
+        vBox.setPadding(new Insets(15)); // Padding around sidebar
+        vBox.getStyleClass().add("sidebar");
+
+        // Main sidebar VBox
+        VBox sidebar = new VBox();
+
+        // Bind vBox height to 70% of sidebar height
+        vBox.prefHeightProperty().bind(sidebar.heightProperty().multiply(0.7));
+        sidebar.getChildren().add(vBox);
+
+        // Spacer for remaining 30% of the height
+        VBox spacer = new VBox();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        sidebar.getChildren().add(spacer);
+
+        sidebar.setAlignment(Pos.TOP_LEFT);
+
+        return sidebar; // Return sidebar instead of vBox
+    }
+
 }

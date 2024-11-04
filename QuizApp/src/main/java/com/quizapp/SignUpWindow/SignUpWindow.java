@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -31,25 +32,22 @@ public class SignUpWindow extends Application {
         GridPane gridImage = LoginPageUI.frontPageImage(signUpStage);
         GridPane imageForm = new GridPane();
 
-        imageForm.add(gridImage,0,0);
-        imageForm.add(outerBox(),1,0);
+        imageForm.add(gridImage, 0, 0);
+        imageForm.add(outerBox(), 1, 0);
         imageForm.setHgap(200);
         imageForm.setAlignment(Pos.CENTER);
-
 
         // Layout using GridPane
         GridPane body = new GridPane();
         body.setHgap(10);
         body.setVgap(10);
-        body.add(header,0, 0);
+        body.add(header, 0, 0);
         body.add(imageForm, 0, 1);
         body.setAlignment(Pos.CENTER);
-
 
         BorderPane pane = new BorderPane();
         pane.setTop(header);
         pane.setCenter(body);
-
 
         // Scene setup
         Scene scene = new Scene(pane);
@@ -76,7 +74,7 @@ public class SignUpWindow extends Application {
         gridLogo.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(gridLogo, Priority.ALWAYS);
 
-        // Sign Up button
+        // Sign In button
         Button signInButton = new Button("Sign In");
         signInButton.getStyleClass().add("button");
 
@@ -138,22 +136,39 @@ public class SignUpWindow extends Application {
         buttonBox.setAlignment(Pos.CENTER);
         formGrid.add(buttonBox, 0, 6, 2, 1);
 
+        // Row 8: Message Label for feedback
+        Label messageLabel = new Label();
+        messageLabel.setTextFill(Color.RED);  // Default color for error
+        formGrid.add(messageLabel, 0, 7, 2, 1);  // Span across 2 columns
+
+        // Instantiate SignUpAction to handle signup logic, passing messageLabel
+        SignUpAction signUpAction = new SignUpAction(
+                fullNameField,
+                nickNameField,
+                usernameField,
+                passwordField,
+                confirmPasswordField,
+                signUpButton,
+                messageLabel,
+                roleComboBox
+        );
+        signUpAction.setupActions();  // Set up Enter key actions and sign-up button
+
         return formGrid;
     }
 
-    private GridPane outerBox(){
+    private GridPane outerBox() {
         GridPane formLayout = new GridPane();
 
-        formLayout.add(pageTitle(),0,0);
-        formLayout.add(createSignUpForm(),0,1);
+        formLayout.add(pageTitle(), 0, 0);
+        formLayout.add(createSignUpForm(), 0, 1);
         formLayout.getStyleClass().add("signUpForm");
 
         GridPane outerBox = new GridPane();
-        outerBox.add(formLayout,0,0);
+        outerBox.add(formLayout, 0, 0);
 
         outerBox.setAlignment(Pos.CENTER);
 
         return outerBox;
     }
-
 }
