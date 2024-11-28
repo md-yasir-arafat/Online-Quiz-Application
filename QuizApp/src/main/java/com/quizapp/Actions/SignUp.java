@@ -1,5 +1,7 @@
 package com.quizapp.Actions;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -144,6 +146,16 @@ public class SignUp {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static void start() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/LoginPageUI.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setMaximized(true);
+        stage.setTitle("Login Page");
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Helper method to escape strings for CSV

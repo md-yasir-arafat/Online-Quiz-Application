@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -61,6 +62,7 @@ public class loginPage {
         // Handle sign-up logic here
         Login.openSignUpWindow();
         lblMessage.setText("Sign up button clicked!");
+        closeCurrentWindow();
     }
 
     private void handleLogin() {
@@ -78,6 +80,12 @@ public class loginPage {
         } else {
             lblMessage.setText("Invalid username or password.");
         }
+    }
+
+    // Close the current login window
+    public void closeCurrentWindow() {
+        Stage stage = (Stage) signUpButton.getScene().getWindow();
+        stage.close();  // Close the current stage (login window)
     }
 }
 

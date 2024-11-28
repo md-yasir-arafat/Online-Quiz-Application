@@ -15,7 +15,7 @@ public class Login {
 
     private final TextField usernameField;
     private final PasswordField passwordField;
-    private final Button loginButton;
+    private static Button loginButton = null;
     private final Label messageLabel;
 
     // Constructor to pass the references of UI components
@@ -145,7 +145,7 @@ public class Login {
     }
 
     // Close the current login window
-    private void closeCurrentWindow() {
+    public void closeCurrentWindow() {
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.close();  // Close the current stage (login window)
     }

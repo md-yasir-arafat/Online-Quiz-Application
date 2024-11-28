@@ -14,7 +14,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/LoginPageUI.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setMaximized(true);
-        stage.setTitle("Hello!");
+        stage.setTitle("Login Page");
         stage.setScene(scene);
         stage.show();
     }

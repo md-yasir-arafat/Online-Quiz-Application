@@ -1,13 +1,20 @@
 package com.quizapp.Controllers;
 
 
+import com.quizapp.Actions.Login;
 import com.quizapp.Actions.SignUp;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import static com.quizapp.Actions.SignUp.start;
 
 public class signUpPage {
 
@@ -45,6 +52,15 @@ public class signUpPage {
 
         // Set up sign-up action (optional: custom class or lambda)
         signUpButton.setOnAction(event -> handleSignUp());
+
+        signInButton.setOnAction(e -> {
+            try {
+                start();
+                closeCurrentWindow();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     private void handleSignUp() {
@@ -67,4 +83,10 @@ public class signUpPage {
         );
         signUp.setUpActions();
     }
+
+    public void closeCurrentWindow() {
+        Stage stage = (Stage) signInButton.getScene().getWindow();
+        stage.close();  // Close the current stage (login window)
+    }
+
 }
