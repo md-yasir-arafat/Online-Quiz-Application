@@ -7,9 +7,12 @@
 }
 
 
+<<<<<<< HEAD
 #button {
 
 }
+=======
+>>>>>>> 34d2d1fb628e3c29f753b63354f71d5985826664
 
 /* Style buttons */
 .button {
@@ -71,3 +74,24 @@
     text-align: center; /* Center align text */
     color: red; /* Change text color to red */
 }
+<<<<<<< HEAD
+=======
+
+
+.sideButton{
+    -fx-padding: 10 5;
+}
+
+.top-section {
+    -fx-padding: 30 20 30 20; /* top right bottom left */
+    -fx-background-color: #f0f0f0; /* Optional: Add background color */
+}
+
+.userImage{
+    -fx-border-radius: 40;
+}
+
+.ssbox{
+    -fx-border-radius: 50;
+}
+>>>>>>> 34d2d1fb628e3c29f753b63354f71d5985826664
