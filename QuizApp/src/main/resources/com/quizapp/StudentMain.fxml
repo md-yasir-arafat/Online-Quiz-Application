@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.StudentMain" stylesheets="@../../css/style.css">
+    <top >
+        <VBox styleClass="top-section">
+            <!-- Header Section -->
+            <HBox alignment="CENTER" spacing="20">
+                <!-- Left Section: Logo -->
+                <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                    <ImageView fx:id="logoImage" fitHeight="40" fitWidth="40" />
+                    <Label styleClass="logo-text" text="Quize" />
+                </HBox>
+
+                <!-- Center Section: Buttons -->
+                <HBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+                    <Button text="Home" />
+                    <Button fx:id="takeQuiz" text="Take Quiz" />
+                    <Button fx:id="Courses" text="Courses" />
+                </HBox>
+
+                <!-- Right Section: User Info -->
+                <HBox alignment="CENTER_RIGHT" spacing="10" HBox.hgrow="ALWAYS">
+                    <ImageView fx:id="userImage" fitHeight="40" fitWidth="40" />
+                    <Button text="User" />
+                </HBox>
+            </HBox>
+
+            <!-- Separator -->
+            <Separator orientation="HORIZONTAL" prefHeight="3.0" prefWidth="407.0" />
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane fx:id="splitPane" dividerPositions="0.235, 0.8025" orientation="HORIZONTAL">
+            <!-- Left Section -->
+            <VBox fx:id="leftVBox" alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: red;">
+                <!-- Top Label -->
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="My Courses" />
+                </HBox>
+
+                <!-- ScrollPane taking up all remaining space -->
+                <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <GridPane fx:id="numberGrid" alignment="CENTER" hgap="10" prefHeight="268.0" prefWidth="75.0" vgap="10" />
+                </ScrollPane>
+            </VBox>
+
+            <!-- Center Section -->
+            <VBox fx:id="centerVBox" alignment="CENTER" spacing="50" style="-fx-background-color: green;">
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="My Courses" />
+                </HBox>
+
+                <GridPane alignment="CENTER" hgap="30" prefHeight="167.0" prefWidth="75.0" vgap="20">
+                    
+                    <!-- First Course -->
+
+                    <VBox alignment="CENTER" spacing="10">
+                        <Circle fill="WHITE" radius="50" stroke="BLACK" strokeWidth="2" />
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Java - 70% Complete" />
+                        <Button style="-fx-background-color: #90ee90; -fx-text-fill: white; -fx-font-weight: bold;" text="Go to course" />
+                    </VBox>
+
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+
+                <Hyperlink prefHeight="23.0" prefWidth="100.0" style="-fx-text-fill: #333333;" text="Show all courses" />
+            </VBox>
+
+            <!-- Right Section -->
+            <VBox fx:id="rightVBox" alignment="CENTER_RIGHT" prefHeight="307.0" prefWidth="82.0" spacing="50" style="-fx-background-color: blue;">
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="Leaderboard" />
+                </HBox>
+
+                <!-- ScrollPane taking up all remaining space -->
+                <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <GridPane fx:id="rank" alignment="CENTER" hgap="10" prefWidth="74.0" vgap="10" />
+                </ScrollPane>
+            </VBox>
+        </SplitPane>
+
+    </center>
+
+</BorderPane>
