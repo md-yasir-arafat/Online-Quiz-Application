@@ -48,8 +48,7 @@ public class Login {
     private void handleLoginAction() throws IOException {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
-//        int loginResult = handleLogin(username, password);
-        int loginResult = 2;
+        int loginResult = handleLogin(username, password);
 
         if (loginResult == 1) {  // Teacher login
             messageLabel.setTextFill(Color.GREEN);

@@ -1,0 +1,11 @@
+"More Basic Algebra Questions"
+"What is the value of x in the equation 5x = 20?",4,5,20,0
+"If y = x + 3 and x = 7, what is the value of y?",10,7,3,4
+"Which of the following is a term in the expression 4x + 9?",4x,9,x,13
+"Simplify 3(x + 2):",3x + 6,3x + 2,3x - 2,3x
+"What property is demonstrated by 2(3 + 4) = 2*3 + 2*4?",Distributive,Commutative,Associative,Identity
+"If x - 4 = 12, what is the value of x?",16,8,4,12
+"What is the coefficient in the term 7x?",7,x,0,1
+"Which of the following equations is linear?",y = 2x + 5,x^2 + 3 = 0,y = 1/x,y = x^3 + 2
+"If 3x + 5 = 14, what is the value of x?",3,2,4,1
+"Simplify the expression (2x + 3x) - x:",4x,5x,3x,x

@@ -1,6 +1,7 @@
 package com.quizapp.Controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -89,7 +90,10 @@ public class StudentMain {
             while ((course = reader.readLine()) != null) {
                 Label courseLabel = new Label(course);
                 courseLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: black;");
-                numberGrid.add(courseLabel, 0, row++); // Add each course to a new row
+                GridPane gridPane = new GridPane();
+                gridPane.add(courseLabel, 0,0);
+                gridPane.setAlignment(Pos.CENTER_LEFT);
+                numberGrid.add(gridPane, 0, row++); // Add each course to a new row
             }
         } catch (IOException e) {
             e.printStackTrace();

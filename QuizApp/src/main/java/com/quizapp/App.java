@@ -8,7 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+
 public class App extends Application {
+    public static double sceneWidth = 0;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/LoginPageUI.fxml"));
@@ -17,6 +20,7 @@ public class App extends Application {
         stage.setTitle("Login Page");
         stage.setScene(scene);
         stage.show();
+        sceneWidth = scene.getWidth();
     }
 
     public static void main(String[] args) {

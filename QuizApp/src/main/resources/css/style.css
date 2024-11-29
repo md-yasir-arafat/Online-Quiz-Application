@@ -75,6 +75,14 @@
 }
 
 .top-section {
-    -fx-pref-height: 100; /* Set minimum height */
+    -fx-padding: 30 20 30 20; /* top right bottom left */
     -fx-background-color: #f0f0f0; /* Optional: Add background color */
+}
+
+.userImage{
+    -fx-border-radius: 40;
+}
+
+.ssbox{
+    -fx-border-radius: 50;
 }

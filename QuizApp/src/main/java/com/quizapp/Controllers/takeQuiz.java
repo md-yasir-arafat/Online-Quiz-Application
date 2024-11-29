@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.util.Objects;
 
 public class takeQuiz {
@@ -27,5 +28,34 @@ public class takeQuiz {
             System.err.println("Resource not found: " + e.getMessage());
         }
 
+    }
+
+    public class FileCounter {
+        public static void main(String[] args) {
+            // Path to the directory containing the files
+            File folder = new File("path/to/Questions");
+
+            // Ensure the folder exists
+            if (folder.exists() && folder.isDirectory()) {
+                // List all files in the directory
+                File[] files = folder.listFiles();
+
+                // Counter for files starting with "Rabbi_Math"
+                int count = 0;
+
+                if (files != null) {
+                    for (File file : files) {
+                        // Check if the file starts with "Rabbi_Math"
+                        if (file.isFile() && file.getName().startsWith("Rabbi_Math")) {
+                            count++;
+                        }
+                    }
+                }
+
+                System.out.println("Number of files starting with 'Rabbi_Math': " + count);
+            } else {
+                System.out.println("The folder does not exist or is not a directory.");
+            }
+        }
     }
 }
