@@ -1,18 +1,14 @@
 package com.quizapp.Controllers;
 
 import com.quizapp.Actions.Login;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -22,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.quizapp.Controllers.AddQuizPage.openAddQuizPage;
 import static com.quizapp.Controllers.QuizEditPage.openEditQuizPage;
@@ -36,9 +33,10 @@ public class QuizListTeacher {
     private ImageView userImage;
 
     public Map<String, String> quizMap = new HashMap<>();
-    private String common = "src/main/resources/Questions/";
+    private static String quizDir = "src/main/resources/Courses/";
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
+    private static String quizFile = "";
 
     @FXML
     public void initialize() {
@@ -57,33 +55,52 @@ public class QuizListTeacher {
                 throw new RuntimeException(ex);
             }
         });
-        courseList( "Rabbi");
+        courseList( "quiz");
         addCoursesFromMap();
     }
 
-    private void  addCoursesFromMap() {
+    private void addCoursesFromMap() {
         // Clear the existing content in the GridPane to avoid duplication
         CourseGrid.getChildren().clear();
 
         int row = 0;
 
-        // Iterate through the quizMap to add titles
+        // Iterate through the quizMap to add titles and buttons
         for (Map.Entry<String, String> entry : quizMap.entrySet()) {
-            String title = entry.getValue();
+            AtomicReference<String> fileName = new AtomicReference<>(entry.getKey()); // File name
+            String title = entry.getValue(); // Title of the quiz
 
-            // Create a Label for each title
+            // Create a Label for the title
             Label titleLabel = new Label(title);
             titleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: black;");
 
-            // Add the Label to the GridPane in the current row
-            CourseGrid.add(titleLabel, 0, row++);
+            // Create an Edit button
+            Button editButton = new Button("Edit");
+            editButton.setStyle("-fx-background-color: #90ee90; -fx-text-fill: white; -fx-font-weight: bold;");
+
+            // Add an action listener to the button to handle editing
+            editButton.setOnAction(e -> {
+                try {
+                    fileName.set(quizDir + "/" + fileName);
+                    openEditQuizPage(fileName.get()); // Call the method to edit the file
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+            // Add the Label and Button to the GridPane in the current row
+            CourseGrid.add(titleLabel, 0, row); // Add the title to the first column
+            CourseGrid.add(editButton, 1, row); // Add the button to the second column
+
+            row++; // Move to the next row
         }
     }
 
 
     // Method to check how many files start with a specific prefix and read the first line (quiz title)
     private void courseList(String commonPrefix) {
-        File directory = new File(common); // Directory containing quiz files
+        quizDir = quizDir+ quizFile;
+        File directory = new File(quizDir); // Directory containing quiz files
         if (!directory.isDirectory()) {
             System.out.println("Not a valid directory.");
             return;
@@ -130,7 +147,8 @@ public class QuizListTeacher {
         }
     }
 
-    public static void openCourseListTeacher() throws IOException {
+    public static void openCourseListTeacher(String quizFileName) throws IOException {
+        quizFile = quizFileName;
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/QuizListTeacher.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage takeQuizStage = new Stage();

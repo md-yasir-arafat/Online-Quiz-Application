@@ -1,6 +1,6 @@
 package com.quizapp.Controllers;
 
-import com.quizapp.Controllers.QuizEditPage;
+import com.quizapp.App;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
@@ -36,8 +35,8 @@ public class TeacherMainPage {
 
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-    private String filename = "src/main/resources/teacherInfo/MSRb.csv";
-    private String common = "src/main/resources/Questions/";
+    private String courseDir = "src/main/resources/Courses/";
+    private String filename = "src/main/resources/teacherInfo/" + App.username + ".csv";
 
 
     @FXML
@@ -108,7 +107,7 @@ public class TeacherMainPage {
                 checkFilesButton.setOnAction(e -> {
                     try {
                         // Open the Quiz Editor dynamically with the quiz file name
-                        openCourseListTeacher();
+                        openCourseListTeacher(quizFileName);
 //                        quizEditPage.openQuizEditor(common + "quiz1.csv"); // Use dynamic file path
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -135,4 +134,5 @@ public class TeacherMainPage {
             e.printStackTrace();
         }
     }
+
 }
