@@ -90,6 +90,7 @@ public class StudentMainPage {
 
             // Reading file line by line and adding Labels to the GridPane
             while ((course = reader.readLine()) != null) {
+                course = course.replace("_", " ");
                 Label courseLabel = new Label(course);
                 courseLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: black;");
                 GridPane gridPane = new GridPane();

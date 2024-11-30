@@ -71,6 +71,12 @@
 
 .ssbox {
     -fx-border-radius: 50;
+    -fx-border-color: #919f92; /* Optional: Add border color */
+    -fx-border-width: 2; /* Optional: Border width */
+    -fx-padding: 10; /* Optional: Inner padding */
+    -fx-pref-width: 180; /* Set preferred width */
+    -fx-pref-height: 500; /* Set preferred height */
+    -fx-background-radius: 50; /* Match border radius for rounded effect */
 }
 
 
