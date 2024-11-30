@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
-
 public class App extends Application {
     public static double sceneWidth = 0;
     public static String username;

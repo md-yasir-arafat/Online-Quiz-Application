@@ -24,7 +24,7 @@ public class TakeQuizPage {
     @FXML
     public void initialize() {
         try {
-            loadQuestionsFromFile("src/main/resources/Questions/quiz1.csv");
+            loadQuestionsFromFile("src/main/resources/Courses/Java_Object_Oriented_Programing_by_MSRb/quiz1.csv");
             displayQuestions();
             setupSubmitAction();
         } catch (IOException e) {
