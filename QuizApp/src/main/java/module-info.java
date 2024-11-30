@@ -1,6 +1,8 @@
 module com.quizapp {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
+    requires kotlin.stdlib;
 
 
     opens com.quizapp to javafx.fxml;

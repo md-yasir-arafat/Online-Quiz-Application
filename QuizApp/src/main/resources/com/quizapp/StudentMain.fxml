@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.StudentMain" stylesheets="@../../css/style.css">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.StudentMainPage" stylesheets="@../../css/style.css">
     <top >
         <VBox styleClass="top-section">
             <!-- Header Section -->
@@ -32,7 +32,7 @@
         </VBox>
     </top>
     <!-- Separator -->
-    <Separator orientation="HORIZONTAL" prefHeight="3.0"/>
+    <Separator orientation="HORIZONTAL" prefHeight="5.0"/>
     <center>
         <SplitPane fx:id="splitPane" dividerPositions="0.235, 0.8025" orientation="HORIZONTAL">
             <!-- Left Section -->

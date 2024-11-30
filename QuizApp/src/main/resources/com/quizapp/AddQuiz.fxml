@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.AddQuizPage">
+    <top>
+        <VBox>
+            <!-- Header Section -->
+            <HBox alignment="CENTER" spacing="20">
+                <!-- Left Section: Logo -->
+                <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                    <Label styleClass="logo-text" text="Add New Quiz" />
+                </HBox>
+            </HBox>
+
+            <!-- Separator -->
+            <Separator orientation="HORIZONTAL" />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox fillWidth="true" spacing="20" alignment="TOP_CENTER">
+            <!-- Title Input -->
+            <TextField fx:id="quizTitleField" promptText="Enter Quiz Title" />
+
+            <!-- Questions Section -->
+            <GridPane fx:id="questionGrid" alignment="TOP_CENTER" hgap="10" vgap="10" />
+
+            <!-- Add Question Button -->
+            <Button fx:id="addQuestionButton" text="Add Question" />
+        </VBox>
+    </center>
+
+    <bottom>
+        <!-- Save Button -->
+        <HBox alignment="CENTER" spacing="20">
+            <Button fx:id="saveButton" text="Save Quiz" />
+        </HBox>
+    </bottom>
+</BorderPane>

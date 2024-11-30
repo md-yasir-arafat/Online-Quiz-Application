@@ -15,7 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
-public class StudentMain {
+public class StudentMainPage {
     public Button takeQuiz;
     public Button Courses;
     public Button addCourses;

@@ -15,7 +15,7 @@ public class Login {
 
     private final TextField usernameField;
     private final PasswordField passwordField;
-    private static Button loginButton = null;
+    private  Button loginButton;
     private final Label messageLabel;
 
     // Constructor to pass the references of UI components

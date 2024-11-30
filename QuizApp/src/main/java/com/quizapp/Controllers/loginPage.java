@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -43,9 +44,23 @@ public class loginPage {
         // Initialize the logo
         logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
 
-        // Initialize the main image and resize it dynamically
+        // Initialize the main image
         Image mainBgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH)));
         mainImage.setImage(mainBgImage);
+
+
+        // Set up key event handlers to move focus to the next field on ENTER key press
+        usernameField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                passwordField.requestFocus();
+            }
+        });
+
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                loginButton.requestFocus();
+            }
+        });
 
         // Add functionality to buttons (Sign Up and Login)
         signUpButton.setOnAction(e -> {
@@ -73,13 +88,6 @@ public class loginPage {
         // Delegate the event handling to LoginActions class
         Login login = new Login(usernameField, passwordField, loginButton, lblMessage);
         login.setupActions();  // Call the method to set up the actions
-
-
-        if ("user".equals(username) && "password".equals(password)) {
-            lblMessage.setText("Login successful!");
-        } else {
-            lblMessage.setText("Invalid username or password.");
-        }
     }
 
     // Close the current login window
@@ -88,5 +96,3 @@ public class loginPage {
         stage.close();  // Close the current stage (login window)
     }
 }
-
-

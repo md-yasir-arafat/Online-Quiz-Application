@@ -1,27 +1,20 @@
 package com.quizapp.Controllers;
 
-
-import com.quizapp.Actions.Login;
 import com.quizapp.Actions.SignUp;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
-
-import static com.quizapp.Actions.SignUp.start;
 
 public class signUpPage {
 
     public ImageView mainImage;
     private static final String BACKGROUND_IMAGE_PATH = "/images/Student-Studying.jpg";
     @FXML
-    private ImageView logoImage, frontImage;
+    private ImageView logoImage;
 
     @FXML
     private Button signInButton, signUpButton;
@@ -50,12 +43,43 @@ public class signUpPage {
         // Add items to the role combo box
         roleComboBox.getItems().addAll("Teacher", "Student");
 
+        // Set up key event handlers to move focus to the next field on ENTER key press
+        fullNameField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                nickNameField.requestFocus();
+            }
+        });
+
+        nickNameField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                usernameField.requestFocus();
+            }
+        });
+
+        usernameField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                passwordField.requestFocus();
+            }
+        });
+
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                confirmPasswordField.requestFocus();
+            }
+        });
+
+        confirmPasswordField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                signUpButton.requestFocus();
+            }
+        });
+
         // Set up sign-up action (optional: custom class or lambda)
         signUpButton.setOnAction(event -> handleSignUp());
 
         signInButton.setOnAction(e -> {
             try {
-                start();
+                SignUp.start();
                 closeCurrentWindow();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -86,7 +110,7 @@ public class signUpPage {
 
     public void closeCurrentWindow() {
         Stage stage = (Stage) signInButton.getScene().getWindow();
-        stage.close();  // Close the current stage (login window)
+        stage.close();  // Close the current stage (sign-up window)
     }
-
 }
+

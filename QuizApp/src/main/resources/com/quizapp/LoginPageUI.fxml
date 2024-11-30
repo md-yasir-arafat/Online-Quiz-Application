@@ -5,38 +5,42 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.loginPage">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css" fx:controller="com.quizapp.Controllers.loginPage">
     <!-- Header Section -->
     <top>
-        <HBox spacing="10" alignment="CENTER">
+        <HBox spacing="5" alignment="CENTER">
             <!-- Logo and Label -->
-            <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                <ImageView fx:id="logoImage" fitWidth="40" fitHeight="40" />
+            <HBox alignment="CENTER_LEFT"  HBox.hgrow="ALWAYS" styleClass="topPad">
+                <ImageView fx:id="logoImage" fitWidth="80" fitHeight="50" />
                 <Label text="Quize" styleClass="logo-text" />
             </HBox>
             <!-- Sign Up Button -->
-            <Button fx:id="signUpButton" text="Sign up" styleClass="button" />
+            <HBox styleClass="buttonMargin" alignment="CENTER_RIGHT" spacing="30">
+                <Button fx:id="signUpButton" text="Sign up" styleClass="button" />
+            </HBox>
         </HBox>
     </top>
 
     <!-- Center Section -->
     <center>
-        <SplitPane orientation="HORIZONTAL">
-            <!-- Main Image Section -->
-            <VBox alignment="CENTER" prefHeight="300">
-                <ImageView fx:id="mainImage" fitWidth="600" fitHeight="400" preserveRatio="true" />
+        <HBox alignment="CENTER">
+            <!-- Main Image Section (left side) -->
+            <VBox alignment="CENTER" prefWidth="500" prefHeight="350" styleClass="mainImagePad">
+                <ImageView fx:id="mainImage" fitWidth="800" fitHeight="500" preserveRatio="true" smooth="true" />
             </VBox>
 
-            <!-- Login Form -->
-            <GridPane alignment="CENTER" styleClass="signInForm" hgap="10" vgap="10">
-                <children>
-                    <TextField fx:id="usernameField" promptText="Username" GridPane.rowIndex="0" styleClass="text-field" />
-                    <PasswordField fx:id="passwordField" promptText="Password" GridPane.rowIndex="1" styleClass="text-field" />
-                    <Label text="Forgot Password?" alignment="CENTER_LEFT" GridPane.rowIndex="2" />
-                    <Button fx:id="loginButton" text="Login" GridPane.rowIndex="3" styleClass="button" />
-                    <Label fx:id="lblMessage" GridPane.rowIndex="4" />
-                </children>
-            </GridPane>
-        </SplitPane>
+            <!-- Login Form (right side) -->
+            <VBox alignment="CENTER" prefWidth="400" prefHeight="400">
+                <GridPane alignment="CENTER" styleClass="signInForm" hgap="10" vgap="10">
+                    <children>
+                        <TextField fx:id="usernameField" promptText="Username" GridPane.rowIndex="0" styleClass="text-field" />
+                        <PasswordField fx:id="passwordField" promptText="Password" GridPane.rowIndex="1" styleClass="text-field" />
+                        <Label text="Forgot Password?" alignment="CENTER_LEFT" GridPane.rowIndex="2" />
+                        <Button fx:id="loginButton" text="Login" GridPane.rowIndex="3" styleClass="button" />
+                        <Label fx:id="lblMessage" GridPane.rowIndex="4" />
+                    </children>
+                </GridPane>
+            </VBox>
+        </HBox>
     </center>
 </BorderPane>

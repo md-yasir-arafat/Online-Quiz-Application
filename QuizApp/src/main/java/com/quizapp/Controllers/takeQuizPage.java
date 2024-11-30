@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.Objects;
 
-public class takeQuiz {
+public class takeQuizPage {
     @FXML
     private ImageView logoImage; // Ensure this matches the FXML fx:id
 
