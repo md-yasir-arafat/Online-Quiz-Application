@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.CourseInfoPage">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.QuizListTeacher">
     <top>
         <VBox>
             <!-- Header Section -->
@@ -35,10 +35,13 @@
     </top>
 
     <center>
-        <VBox fillWidth="true">
-            <GridPane fx:id="numberGrid" alignment="CENTER"/>
+        <VBox spacing="10" alignment="CENTER">
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <GridPane fx:id="CourseGrid" alignment="CENTER" hgap="10" vgap="10" />
+            </ScrollPane>
+            <Button text="Add Quiz" fx:id="addQuiz" />
         </VBox>
-
     </center>
+
 
 </BorderPane>

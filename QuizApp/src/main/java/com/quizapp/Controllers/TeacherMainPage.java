@@ -19,6 +19,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.quizapp.Controllers.QuizListTeacher.openCourseListTeacher;
+
 public class TeacherMainPage {
     public Button addCourses;
 
@@ -106,8 +108,8 @@ public class TeacherMainPage {
                 checkFilesButton.setOnAction(e -> {
                     try {
                         // Open the Quiz Editor dynamically with the quiz file name
-                        QuizEditPage quizEditPage = new QuizEditPage();
-                        quizEditPage.openQuizEditor(common + "Rabbi_Math_quiz1.csv"); // Use dynamic file path
+                        openCourseListTeacher();
+//                        quizEditPage.openQuizEditor(common + "Rabbi_Math_quiz1.csv"); // Use dynamic file path
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

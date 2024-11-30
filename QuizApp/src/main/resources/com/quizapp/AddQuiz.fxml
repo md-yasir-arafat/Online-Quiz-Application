@@ -27,8 +27,6 @@
             <!-- Questions Section -->
             <GridPane fx:id="questionGrid" alignment="TOP_CENTER" hgap="10" vgap="10" />
 
-            <!-- Add Question Button -->
-            <Button fx:id="addQuestionButton" text="Add Question" />
         </VBox>
     </center>
 

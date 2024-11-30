@@ -28,7 +28,7 @@ public class QuizEditPage {
 
     public  void openQuizEditor(String quizFileName) throws IOException {
         setFilePath(quizFileName);
-        openEditQuizPage();
+        openEditQuizPage(quizFileName);
 
     }
 
@@ -202,13 +202,15 @@ public class QuizEditPage {
         }
     }
 
-    public static void openEditQuizPage() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/QuizEdit.fxml"));
+    public static void openEditQuizPage(String file) throws IOException {
+        file = "src/main/resources/Questions" + file;
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource(file));
         Scene scene = new Scene(fxmlLoader.load());
         Stage editQuiz = new Stage();
         editQuiz.setMaximized(true);
         editQuiz.setTitle("Edit Quiz");
         editQuiz.setScene(scene);
+        editQuiz.setMaximized(true);
         editQuiz.show();
     }
 
