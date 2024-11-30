@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class App extends Application {
     public static double sceneWidth = 0;
+    public static String username;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/LoginPageUI.fxml"));

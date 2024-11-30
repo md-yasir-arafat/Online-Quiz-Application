@@ -1,61 +1,156 @@
 package com.quizapp.Controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
-import java.io.File;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
-public class takeQuizPage {
+public class TakeQuizPage {
+
     @FXML
-    private ImageView logoImage; // Ensure this matches the FXML fx:id
+    private GridPane questionGrid; // Grid for displaying questions and options
+    @FXML
+    private Button submitButton; // Button for submitting the quiz
+
+    private List<Question> questions = new ArrayList<>(); // List to store questions and options
+    private Map<Integer, ToggleGroup> toggleGroups = new HashMap<>(); // Toggle groups for radio buttons
 
     @FXML
-    private ImageView userImage; // Fixed spelling to match FXML fx:id
-
-    private static final String LOGO_PATH = "/images/logo.png";
-    private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-
-    public void initialize(){
+    public void initialize() {
         try {
-            // Initialize the logo
-            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
-
-            // Set the user image (background)
-            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
-        } catch (NullPointerException e) {
-            System.err.println("Resource not found: " + e.getMessage());
+            loadQuestionsFromFile("src/main/resources/Questions/quiz1.csv");
+            displayQuestions();
+            setupSubmitAction();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
-    public class FileCounter {
-        public static void main(String[] args) {
-            // Path to the directory containing the files
-            File folder = new File("path/to/Questions");
+    // Method to load questions from the CSV file
+    private void loadQuestionsFromFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("Quiz file not found: " + filePath);
+            return;
+        }
 
-            // Ensure the folder exists
-            if (folder.exists() && folder.isDirectory()) {
-                // List all files in the directory
-                File[] files = folder.listFiles();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String title = reader.readLine(); // Read the first line (title, ignore for now)
+            String line;
 
-                // Counter for files starting with "Rabbi_Math"
-                int count = 0;
+            // Parse questions from the file
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 5); // Split line into question, answer, and options
+                if (parts.length < 5) continue; // Skip invalid lines
 
-                if (files != null) {
-                    for (File file : files) {
-                        // Check if the file starts with "Rabbi_Math"
-                        if (file.isFile() && file.getName().startsWith("Rabbi_Math")) {
-                            count++;
-                        }
-                    }
-                }
+                String text = parts[0];
+                String correctAnswer = parts[1];
+                List<String> options = Arrays.asList(parts[1], parts[2], parts[3], parts[4]);
 
-                System.out.println("Number of files starting with 'Rabbi_Math': " + count);
-            } else {
-                System.out.println("The folder does not exist or is not a directory.");
+                // Randomize options
+                Collections.shuffle(options);
+
+                // Create and store question
+                questions.add(new Question(text, correctAnswer, options));
             }
         }
+    }
+
+    // Method to display questions and options in the GridPane
+    private void displayQuestions() {
+        questionGrid.getChildren().clear();
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+
+            // Display question text in one row
+            Label questionLabel = new Label((i + 1) + ". " + question.getText());
+            questionGrid.add(questionLabel, 0, i * 2); // Add to the first column of the current row
+
+            // Create a ToggleGroup for the options
+            ToggleGroup group = new ToggleGroup();
+            toggleGroups.put(i, group);
+
+            // Create an HBox for the options to arrange them horizontally
+            HBox optionsBox = new HBox(10); // Add spacing of 10 between options
+            for (int j = 0; j < question.getOptions().size(); j++) {
+                RadioButton optionButton = new RadioButton(question.getOptions().get(j));
+                optionButton.setToggleGroup(group);
+                optionsBox.getChildren().add(optionButton); // Add option button to the HBox
+            }
+
+            // Add the options HBox to the next row
+            questionGrid.add(optionsBox, 0, i * 2 + 1, 2, 1); // Span across 2 columns
+        }
+    }
+
+    // Method to set up the submit button action
+    private void setupSubmitAction() {
+        submitButton.setOnAction(e -> {
+            int correctCount = 0;
+
+            // Calculate the score
+            for (int i = 0; i < questions.size(); i++) {
+                ToggleGroup group = toggleGroups.get(i);
+                if (group != null && group.getSelectedToggle() != null) {
+                    RadioButton selected = (RadioButton) group.getSelectedToggle();
+                    if (selected.getText().equals(questions.get(i).getCorrectAnswer())) {
+                        correctCount++;
+                    }
+                }
+            }
+
+            // Calculate marks out of 100
+            double score = ((double) correctCount / questions.size()) * 100;
+
+            // Display result
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Quiz Results");
+            alert.setHeaderText("Quiz Completed!");
+            alert.setContentText("You scored: " + String.format("%.2f", score) + " out of 100");
+            alert.showAndWait();
+        });
+    }
+
+    // Inner class to represent a Question
+    private static class Question {
+        private final String text;
+        private final String correctAnswer;
+        private final List<String> options;
+
+        public Question(String text, String correctAnswer, List<String> options) {
+            this.text = text;
+            this.correctAnswer = correctAnswer;
+            this.options = options;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public String getCorrectAnswer() {
+            return correctAnswer;
+        }
+
+        public List<String> getOptions() {
+            return options;
+        }
+    }
+
+    // Method to open the TakeQuiz page
+    public static void openTakeQuizPage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(TakeQuizPage.class.getResource("/com/quizapp/TakeQuiz.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage takeQuizStage = new Stage();
+        takeQuizStage.setTitle("Take Quiz");
+        takeQuizStage.setMaximized(true);
+        takeQuizStage.setScene(scene);
+        takeQuizStage.show();
     }
 }

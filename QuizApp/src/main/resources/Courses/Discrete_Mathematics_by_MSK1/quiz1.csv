@@ -1,0 +1,11 @@
+"Quiz on Set Theory and Logic"
+"What is the union of sets A = {1, 2} and B = {2, 3}?",{1, 2, 3},{1, 2},{2, 3},{1, 3}
+"What is the intersection of sets A = {1, 2, 3} and B = {3, 4}?",{3},{1, 2},{4},{1, 2, 3, 4}
+"If P is true and Q is false, what is the truth value of P ∧ Q?",False,True,None of the above,Not defined
+"Which of the following is a subset of A = {1, 2}?",{1},{3},{1, 2, 3},{1, 3}
+"What is the cardinality of the power set of {a, b}?",4,2,3,5
+"What is the negation of the statement 'It is raining'?",It is not raining,It is sunny,It is raining heavily,It is cloudy
+"Which of the following statements is a tautology?",P ∨ ¬P,P ∧ P,P ∧ ¬P,None of the above
+"What is the difference between sets A = {1, 2, 3} and B = {2, 3}?",{1},{2},{3},{1, 2, 3}
+"What is the complement of set A = {1, 2} in universal set U = {1, 2, 3, 4}?",{3, 4},{1, 2},{1, 4},{2, 3}
+"If a proposition is always false, it is called a?",Contradiction,Tautology,Implication,Biconditional

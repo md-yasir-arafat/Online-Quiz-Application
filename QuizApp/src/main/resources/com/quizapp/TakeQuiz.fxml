@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.takeQuizPage" stylesheets="@../../css/style.css">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.TakeQuizPage" stylesheets="@../../css/style.css">
     <top>
         <VBox styleClass="top-section">
             <!-- Header Section -->
@@ -33,7 +33,13 @@
     </top>
     <Separator orientation="HORIZONTAL" prefHeight="5.0"/>
     <center>
-
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Take Quiz" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <GridPane fx:id="questionGrid" hgap="10" vgap="10" alignment="TOP_LEFT" />
+            </ScrollPane>
+            <Button fx:id="submitButton" text="Submit Quiz" />
+        </VBox>
     </center>
 
 </BorderPane>

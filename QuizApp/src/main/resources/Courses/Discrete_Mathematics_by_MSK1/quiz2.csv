@@ -1,0 +1,11 @@
+"Quiz on Graph Theory and Relations"
+"In a simple graph, the number of edges is?",At most n(n-1)/2,At least n(n-1)/2,Exactly n,At least n
+"What is the degree of a vertex in a graph?",Number of edges connected to it,Number of vertices in the graph,Number of loops,Number of graphs
+"A relation is a function if?",Each element of the domain maps to exactly one element of the codomain,Each element of the domain maps to at least one element of the codomain,Each element maps to itself,Each element maps to multiple elements
+"What is the adjacency matrix of a graph?",A square matrix representing edges,A matrix of vertex labels,A diagonal matrix,A square matrix of vertex degrees
+"If a graph has 5 vertices and is complete, how many edges does it have?",10,5,15,25
+"Which of the following graphs has an Eulerian circuit?",A connected graph where all vertices have even degree,A connected graph with no odd-degree vertices,A tree with n vertices,A disconnected graph
+"What is the chromatic number of a complete graph with 4 vertices?",4,3,2,1
+"If a directed graph has 3 vertices and 6 edges, it is?",Complete,Tree,Cyclic,Acyclic
+"What is a bipartite graph?",A graph whose vertices can be divided into two disjoint sets,An undirected graph with no loops,A graph with at most two edges,An unweighted graph
+"What is the minimum spanning tree of a graph?",A subset of edges connecting all vertices with minimum total weight,A subset of vertices with minimum degree,A spanning tree with maximum total weight,An undirected cycle

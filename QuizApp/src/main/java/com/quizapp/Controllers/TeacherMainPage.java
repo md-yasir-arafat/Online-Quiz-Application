@@ -36,7 +36,7 @@ public class TeacherMainPage {
 
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-    private String filename = "src/main/resources/teacherInfo/Rabbi.csv";
+    private String filename = "src/main/resources/teacherInfo/MSRb.csv";
     private String common = "src/main/resources/Questions/";
 
 
@@ -109,7 +109,7 @@ public class TeacherMainPage {
                     try {
                         // Open the Quiz Editor dynamically with the quiz file name
                         openCourseListTeacher();
-//                        quizEditPage.openQuizEditor(common + "Rabbi_Math_quiz1.csv"); // Use dynamic file path
+//                        quizEditPage.openQuizEditor(common + "quiz1.csv"); // Use dynamic file path
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

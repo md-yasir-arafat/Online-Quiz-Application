@@ -1,5 +1,7 @@
 package com.quizapp.Actions;
 
+import com.quizapp.App;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -69,8 +71,10 @@ public class Login {
     // Logic for handling login
     public int handleLogin(String username, String password) {
         if (verifyCredentials(username, password, "teacher.csv")) {
+            App.username = username;
             return 1;
         } else if (verifyCredentials(username, password, "student.csv")) {
+            App.username = username;
             return 2;
         } else {
             return 0; // Invalid credentials

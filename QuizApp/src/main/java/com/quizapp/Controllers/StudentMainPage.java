@@ -1,5 +1,7 @@
 package com.quizapp.Controllers;
 
+import com.quizapp.App;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -42,7 +44,7 @@ public class StudentMainPage {
 
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-    private final String fileName = "src/main/resources/studentInfo/yasir.txt";
+    private final String fileName = "src/main/resources/studentInfo/"+App.username+".csv";
     private final String leader = "src/main/resources/leaderboard/leader.txt";
 
     @FXML

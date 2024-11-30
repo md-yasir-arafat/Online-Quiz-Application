@@ -1,0 +1,11 @@
+"Quiz on OOP in Java"
+"What does OOP stand for?",Object-Oriented Programming,Object-Oriented Process,Object Operating Principle,Object Optimization Procedure
+"Which of the following is not a pillar of OOP?",Encapsulation,Polymorphism,Inheritance,Compilation
+"In Java, a class is?",A blueprint for objects,A data type,A collection of variables,A function
+"Which keyword is used to create an object in Java?",new,create,object,class
+"Which method is called when an object is created?",Constructor,Main,Initialize,Setup
+"What is the output of 'System.out.println(5 + \"5\");'?",55,10,Error,None
+"Which of the following allows multiple methods in the same class with the same name but different parameters?",Method Overloading,Method Overriding,Encapsulation,Abstraction
+"Which keyword is used to inherit a class in Java?",extends,implements,inherit,override
+"Which of these is an access modifier in Java?",public,int,float,void
+"What is the return type of a constructor in Java?",No return type,int,void,Object
