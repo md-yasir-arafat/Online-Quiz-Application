@@ -76,6 +76,8 @@ public class SignUp {
             message.setText("Please enter a username.");
             username.requestFocus();
             return;
+        } else {
+            App.username = usernameText;
         }
 
         if (passwordText.isEmpty()) {
@@ -117,9 +119,9 @@ public class SignUp {
             message.setTextFill(Color.RED);
             message.setText("An error occurred. Please try again.");
         }
-
-        if (role == "student"){
-            String leaderFilePath = "src/main/resources/leader.csv";
+        System.out.println("Selected Role: " + role);
+        if ("Student".equals(role)){
+            String leaderFilePath = "src/main/resources/leaderboard/leader.txt";
             String contentToAppend = "0," + App.username;
 
             try (FileWriter writer = new FileWriter(leaderFilePath, true)) { // Open in append mode

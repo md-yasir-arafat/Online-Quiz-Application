@@ -10,7 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class LeaderboardPage {
@@ -34,6 +39,7 @@ public class LeaderboardPage {
 
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
+    private static final String LEADERBOARD_FILE = "src/main/resources/leaderboard/leader.txt";
 
     @FXML
     private void initialize() {
@@ -53,12 +59,32 @@ public class LeaderboardPage {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
 
-        // Add sample data (replace with real data fetching logic)
-        leaderboardTable.getItems().addAll(
-                new Player(1, "Alice", 1500),
-                new Player(2, "Bob", 1400),
-                new Player(3, "Charlie", 1300)
-        );
+        // Populate the leaderboard with data from the file
+        leaderboardTable.getItems().setAll(loadLeaderboardData());
+    }
+
+    /**
+     * Reads leaderboard data from the leader.txt file.
+     *
+     * @return A list of Player objects.
+     */
+    private List<Player> loadLeaderboardData() {
+        List<Player> players = new ArrayList<>();
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(LEADERBOARD_FILE))) {
+            String line;
+            int rank = 1;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ", 2); // Split by the first space
+                if (parts.length == 2) {
+                    int score = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    players.add(new Player(rank++, name, score));
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error reading leaderboard data: " + e.getMessage());
+        }
+        return players;
     }
 
     // Helper class for leaderboard data
@@ -86,13 +112,16 @@ public class LeaderboardPage {
         }
     }
 
+    /**
+     * Opens the leaderboard page in a new window.
+     */
     public static void openLeaderBoard() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(TakeQuizPage.class.getResource("/com/quizapp/LeaderBoard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LeaderboardPage.class.getResource("/com/quizapp/LeaderBoard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage takeQuizStage = new Stage();
-        takeQuizStage.setTitle("Take Quiz");
-        takeQuizStage.setMaximized(true);
-        takeQuizStage.setScene(scene);
-        takeQuizStage.show();
+        Stage stage = new Stage();
+        stage.setTitle("Leaderboard");
+        stage.setMaximized(true);
+        stage.setScene(scene);
+        stage.show();
     }
 }

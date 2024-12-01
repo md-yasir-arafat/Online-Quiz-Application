@@ -3,12 +3,16 @@ package com.quizapp.Controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class AddCourse {
 
@@ -21,23 +25,26 @@ public class AddCourse {
     @FXML
     private Button createCourseButton; // Button to create the course
 
-    // Method to create a new course
+    private static final String COURSES_DIRECTORY = "src/main/resources/Courses/";
+
+    /**
+     * Creates a directory for the course based on the title.
+     */
     @FXML
     public void createCourse() {
         String courseTitle = courseTitleField.getText().trim();
-        String courseDescription = courseDescriptionField.getText().trim();
 
-        // Ensure the title and description are not empty
-        if (courseTitle.isEmpty() || courseDescription.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Both title and description are required.");
+        // Validate title
+        if (courseTitle.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Course title is required.");
             return;
         }
 
-        // Sanitize course title to replace spaces with underscores
+        // Sanitize course title for safe directory naming
         courseTitle = courseTitle.replace(" ", "_");
 
         // Define the course directory path
-        Path courseDirectory = Paths.get("src/main/resources/Courses", courseTitle);
+        Path courseDirectory = Paths.get(COURSES_DIRECTORY, courseTitle);
 
         try {
             // Check if the directory already exists
@@ -49,27 +56,21 @@ public class AddCourse {
             // Create the course directory
             Files.createDirectories(courseDirectory);
 
-            // Create a description file in the directory
-            Path courseFile = courseDirectory.resolve(courseTitle + ".txt");
-            try (BufferedWriter writer = Files.newBufferedWriter(courseFile)) {
-                writer.write("Course Title: " + courseTitle);
-                writer.newLine();
-                writer.write("Description: " + courseDescription);
-            }
-
             // Notify the user of success
             showAlert(Alert.AlertType.INFORMATION, "Success", "Course created successfully.");
 
             // Clear the input fields
             courseTitleField.clear();
             courseDescriptionField.clear();
-
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to create the course: " + e.getMessage());
+            // Handle errors
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to create the course directory: " + e.getMessage());
         }
     }
 
-    // Utility method to display alert messages
+    /**
+     * Utility method to display alert messages to the user.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -78,7 +79,9 @@ public class AddCourse {
         alert.showAndWait();
     }
 
-    // Method to open the Add Course page
+    /**
+     * Opens the Add Course page in a new window.
+     */
     public static void openAddCoursePage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AddCourse.class.getResource("/com/quizapp/AddCourse.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

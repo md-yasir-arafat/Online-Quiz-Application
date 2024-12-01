@@ -62,12 +62,8 @@ public class EnrollPage {
 
             while ((line = reader.readLine()) != null) {
                 String[] courseData = line.split(",");
-
-
-
                 String courseName = courseData[0].trim().replace("_", " ");
                 String description = courseData[1].trim();
-
 
                 VBox courseBox = createCourseBox(courseName, description);
                 courseGrid.add(courseBox, column, row);
@@ -98,10 +94,9 @@ public class EnrollPage {
 
         Button enrollButton = new Button("Enroll");
 
-        String faculty = extractFaculty(courseName);
-        String courseFileName = courseName.split("by", 2)[0].trim();
 
-        enrollButton.setOnAction(e -> enrollCourse(courseFileName, description, faculty));
+
+        enrollButton.setOnAction(e -> enrollCourse(courseName, description));
 
         courseBox.getChildren().addAll(nameLabel, descriptionLabel, enrollButton);
         return courseBox;
@@ -117,7 +112,7 @@ public class EnrollPage {
         }
     }
 
-    public void enrollCourse(String courseFileName, String courseInfo, String faculty) {
+    public void enrollCourse(String courseFileName, String courseInfo) {
         boolean isCourseFound = false;
 
         String userFilePath = "src/main/resources/studentInfo/" + App.username + ".csv";
@@ -126,23 +121,27 @@ public class EnrollPage {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] courseDetails = line.split(",", 2);
-                if (courseDetails.length > 0 && courseDetails[0].trim().equalsIgnoreCase(courseFileName)) {
+                if (courseDetails.length > 0 && courseDetails[0].trim().equalsIgnoreCase(courseFileName.replace(" ", "_"))) {
                     isCourseFound = true;
                     showAlert("Already Enrolled", "You are already enrolled in: " + courseFileName);
                     break;
                 }
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("User file not found: " + userFilePath + ". Assuming no prior enrollment.");
+            // Continue to enroll since the file does not exist.
         } catch (IOException e) {
             System.err.println("Error reading user file: " + e.getMessage());
+            return; // Exit to prevent further errors
         }
 
         if (!isCourseFound) {
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(userFilePath, true))) {
                 int progress = 0;
-                bw.write(courseFileName + "," + courseInfo + "," + progress);
+                bw.write(courseFileName.replace(" ", "_") + "," + courseInfo + "," + progress);
                 bw.newLine();
                 System.out.println("Enrolled successfully in course: " + courseFileName);
-                updateCourseEnrollmentCount(courseFileName, faculty);
+                updateCourseEnrollmentCount(courseFileName.replace(" ", "_"));
                 showAlert("Enrollment Successful", "You have successfully enrolled in: " + courseFileName);
             } catch (IOException e) {
                 System.err.println("Error writing to user file: " + e.getMessage());
@@ -150,7 +149,12 @@ public class EnrollPage {
         }
     }
 
-    private void updateCourseEnrollmentCount(String courseFileName, String faculty) {
+
+    private void updateCourseEnrollmentCount(String courseFileName) {
+        String faculty;
+        String[] parts = courseFileName.split("_by_");
+        faculty = parts[1];
+
         String filePath = "src/main/resources/teacherInfo/" + faculty.trim() + ".csv";
         StringBuilder updatedContent = new StringBuilder();
 
