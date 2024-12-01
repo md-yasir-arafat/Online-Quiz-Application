@@ -14,10 +14,8 @@ public class AddCourse {
 
     @FXML
     private TextField courseTitleField;
-
     @FXML
     private TextArea courseDescriptionField;
-
     @FXML
     private Button createCourseButton;
 
@@ -56,6 +54,7 @@ public class AddCourse {
             showAlert("Error", "Failed to create the course directory: " + e.getMessage());
         }
     }
+
 
     // Utility method to show alert dialogs
     private void showAlert(String title, String message) {

@@ -36,6 +36,14 @@
     -fx-border-width: 4; /* Set border width */
 }
 
+.signUpForm{
+    -fx-margin-top: 100;
+    -fx-padding: 90 0; /* Set padding: 0 top/bottom, 30 left/right */
+    -fx-border-radius: 40; /* Set border radius */
+    -fx-border-color: #63a66d; /* Set border color */
+    -fx-border-width: 4; /* Set border width */
+}
+
 .text-field {
     -fx-padding: 10 20;
     -fx-border-radius: 20;

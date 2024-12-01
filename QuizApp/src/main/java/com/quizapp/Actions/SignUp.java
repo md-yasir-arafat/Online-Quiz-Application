@@ -1,5 +1,6 @@
 package com.quizapp.Actions;
 
+import com.quizapp.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,11 +18,12 @@ public class SignUp {
     private final Button signUpButton;
     private final Label message;
     private final ComboBox<String> roleComboBox;
+    private final String leaderBoard = "src/main/resources/leaderboard/leader.txt";
 
     // Constructor to pass the references of UI components
     public SignUp(TextField name, TextField nickname, TextField username,
-                        PasswordField password, PasswordField confirmPassword,
-                        Button signUpButton, Label message, ComboBox<String> roleComboBox) {
+                  PasswordField password, PasswordField confirmPassword,
+                  Button signUpButton, Label message, ComboBox<String> roleComboBox) {
         this.name = name;
         this.nickname = nickname;
         this.username = username;
@@ -107,12 +109,58 @@ public class SignUp {
 
         // Save the user's information
         boolean isSaved = saveUserCredentials(usernameText, passwordText, fullName, nickName, role);
+        saveUserFile(role, App.username);
         if (isSaved) {
             message.setTextFill(Color.GREEN);
             message.setText("Sign-up successful! You can now log in.");
         } else {
             message.setTextFill(Color.RED);
             message.setText("An error occurred. Please try again.");
+        }
+
+        if (role == "student"){
+            String leaderFilePath = "src/main/resources/leader.csv";
+            String contentToAppend = "0," + App.username;
+
+            try (FileWriter writer = new FileWriter(leaderFilePath, true)) { // Open in append mode
+                writer.append(contentToAppend).append("\n"); // Append the content followed by a new line
+                System.out.println("Appended to leader.csv: " + contentToAppend);
+            } catch (IOException e) {
+                System.err.println("An error occurred while writing to leader.csv:");
+                e.printStackTrace(); // Log the error for debugging
+            }
+        }
+    }
+    // Method to create a file if it does not already exist
+    private void createFileIfNotExists(String directoryPath, String fileName) throws IOException {
+        File directory = new File(directoryPath);
+        File file = new File(directoryPath, fileName);
+
+        // Ensure the directory exists
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create the directory if it doesn’t exist
+        }
+
+        // Create the file only if it doesn’t exist
+        if (!file.exists()) {
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getAbsolutePath());
+            }
+        }
+    }
+
+    private boolean saveUserFile(String role, String username) {
+        String userDirectory = role.equals("Teacher")
+                ? "src/main/resources/teacherInfo/"
+                : "src/main/resources/studentInfo/";
+        String userFilePath = userDirectory + username + ".csv";
+
+        try {
+            createFileIfNotExists(userDirectory, username + ".csv");
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
