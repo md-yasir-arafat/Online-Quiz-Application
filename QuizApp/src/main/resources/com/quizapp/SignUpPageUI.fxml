@@ -11,7 +11,8 @@
         <HBox spacing="10" alignment="CENTER" styleClass="buttonMargin">
             <!-- Logo and Label -->
             <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                <ImageView fx:id="logoImage" fitWidth="70" fitHeight="50" />
+                <ImageView fx:id="logoImage" fitWidth="90" fitHeight="50" />
+
                 <Label text="Quize" styleClass="logo-text" />
             </HBox>
             <!-- Sign In Button -->

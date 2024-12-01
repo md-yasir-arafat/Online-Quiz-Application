@@ -20,6 +20,8 @@
     -fx-text-fill: darkblue;
 }
 
+
+
 .logo-text {
     -fx-font-family: "Cooper Black"; /* Change to your desired font */
     -fx-font-size: 30;      /* Adjust the size as needed */
@@ -87,6 +89,18 @@
     -fx-background-radius: 50; /* Match border radius for rounded effect */
 }
 
+.courseGrid{
+    -fx-padding: 60;
+    -fx-border-radius: 30;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-pref-width: 400; /* Set preferred width */
+    -fx-pref-height: 400;
+}
+
+.wholeCourseGrid{
+    -fx-padding: 60;
+}
 
 .mainImagePad{
     -fx-padding: 0 200 0 0; /* top right bottom left */

@@ -20,6 +20,7 @@ public class StudentMain {
     public static void openCourses() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/Courses.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(StudentMain.class.getResource("src/main/resources/css/styles.css").toExternalForm());
         Stage takeQuizStage = new Stage();
         takeQuizStage.setMaximized(true);
         takeQuizStage.setTitle("My Courses");

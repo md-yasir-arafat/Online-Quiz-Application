@@ -6,18 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LeaderboardPage {
-
-    @FXML
-    private ImageView logoImage;
-
-    @FXML
-    private ImageView userImage;
 
     @FXML
     private TableView<Player> leaderboardTable;
@@ -32,7 +28,26 @@ public class LeaderboardPage {
     private TableColumn<Player, Integer> scoreColumn;
 
     @FXML
+    private ImageView logoImage;
+    @FXML
+    private ImageView userImage;
+
+    private static final String LOGO_PATH = "/images/logo.png";
+    private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
+
+    @FXML
     private void initialize() {
+
+        try {
+            // Initialize the logo
+            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
+
+            // Set the user image (background)
+            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
+        } catch (NullPointerException e) {
+            System.err.println("Resource not found: " + e.getMessage());
+        }
+
         // Set up table columns
         rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

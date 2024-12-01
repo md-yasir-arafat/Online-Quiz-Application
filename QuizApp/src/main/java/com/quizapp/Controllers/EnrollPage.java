@@ -1,6 +1,7 @@
 package com.quizapp.Controllers;
 
 import com.quizapp.Actions.Login;
+import com.quizapp.Actions.StudentMain;
 import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,20 +10,39 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Objects;
 
 public class EnrollPage {
 
-    @FXML
-    private GridPane courseGrid;
+    
     static String line = "";
+    public GridPane courseGrid;
+    @FXML
+    private ImageView logoImage;
+    @FXML
+    private ImageView userImage;
+
+    private static final String LOGO_PATH = "/images/logo.png";
+    private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
 
     @FXML
     private void initialize() {
+        try {
+            // Initialize the logo
+            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
+
+            // Set the user image (background)
+            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
+        } catch (NullPointerException e) {
+            System.err.println("Resource not found: " + e.getMessage());
+        }
         populateCourses("src/main/resources/Courses/all.csv");
     }
 
@@ -45,6 +65,7 @@ public class EnrollPage {
                 String subject = courseData[0];
                 String faculty = "";
                 String description = courseData[1];
+                int quizTaken = Integer.parseInt(courseData[2]);
                 String courseFileName = courseData[0];
 
                 // Process subject string to split into subject and faculty
@@ -65,6 +86,7 @@ public class EnrollPage {
                 VBox courseBox = new VBox(10);
                 courseBox.setAlignment(Pos.CENTER);
                 courseBox.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;");
+                courseBox.getStyleClass().add("courseGrid");
                 courseBox.setPrefWidth(200);
 
                 Label subjectLabel = new Label(subject);
@@ -74,22 +96,26 @@ public class EnrollPage {
                 facultyLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
                 Label descriptionLabel = new Label(description);
-                descriptionLabel.setWrapText(true);
+                descriptionLabel.setWrapText(true); // Enable wrapping for the description
                 descriptionLabel.setStyle("-fx-font-size: 12px;");
 
-                Button enrollButton = new Button("Enroll");
+                Label enrolledLabel = new Label("Quiz Taken: " + quizTaken);
+                enrolledLabel.setStyle("-fx-font-size: 12px;");
+
+                Button enrollButton = new Button("Take Quiz");
                 String finalFaculty = faculty;
                 enrollButton.setOnAction(e -> {
                     enrollCourse(courseFileName, description, finalFaculty);
                 });
 
-                courseBox.getChildren().addAll(subjectLabel, facultyLabel, descriptionLabel, enrollButton);
+                // Add components to the courseBox
+                courseBox.getChildren().addAll(subjectLabel, facultyLabel, descriptionLabel, enrolledLabel, enrollButton);
 
                 // Add the course box to the grid
                 courseGrid.add(courseBox, column, row);
 
                 column++;
-                if (column == 4) { // Move to the next row after 4 columns
+                if (column == 3) { // Move to the next row after 4 columns
                     column = 0;
                     row++;
                 }
@@ -98,6 +124,7 @@ public class EnrollPage {
             e.printStackTrace();
         }
     }
+
 
     public void enrollCourse(String courseFileName, String courseInfo,String faculty) {
         boolean isCourseFound = false;
@@ -175,12 +202,20 @@ public class EnrollPage {
     }
 
     public static void openEnrollPage() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/Enroll.fxml"));
+        // Load the FXML file using the class loader to make sure the path is resolved properly.
+        FXMLLoader fxmlLoader = new FXMLLoader(EnrollPage.class.getResource("/com/quizapp/Enroll.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
+        // Add the stylesheet using a relative path to ensure it is located correctly.
+        String cssPath = "/com/quizapp/css/styles.css"; // Ensure this path matches the actual structure.
+        scene.getStylesheets().add(Login.class.getResource(cssPath).toExternalForm());
+
+        // Set up and show the new stage.
         Stage enrollStage = new Stage();
         enrollStage.setTitle("Enroll in a Course");
         enrollStage.setMaximized(true);
         enrollStage.setScene(scene);
         enrollStage.show();
     }
+
 }

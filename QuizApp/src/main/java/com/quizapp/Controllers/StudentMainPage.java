@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -81,8 +82,6 @@ public class StudentMainPage {
             courseGrid.setPadding(new Insets(20));
             courseGrid.setAlignment(Pos.TOP_LEFT);
 
-            int quizCount = 1;
-
             while ((line = reader.readLine()) != null) {
                 // Split the line to extract details
                 String[] courseData = line.split(",");
@@ -93,16 +92,17 @@ public class StudentMainPage {
                 String quizFileName = courseData[0];
 
                 // Create a VBox for each course
-                VBox courseBox = new VBox(10);
+                VBox courseBox = new VBox(20);
                 courseBox.setAlignment(Pos.CENTER);
                 courseBox.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;");
+                courseBox.getStyleClass().add("courseGrid");
                 courseBox.setPrefWidth(200);
 
                 try {
                     String[] parts = subject.split("by", 2); // Split into at most 2 parts
                     if (parts.length == 2) {
-                        subject = parts[0].trim().replace("_"," "); // Trim to remove extra spaces
-                        faculty = parts[1].trim().replace("_"," ");
+                        subject = parts[0].trim().replace("_", " "); // Trim to remove extra spaces
+                        faculty = parts[1].trim().replace("_", " ");
                     } else {
                         throw new IllegalArgumentException("String does not contain 'by' or is not in the expected format.");
                     }
@@ -110,14 +110,17 @@ public class StudentMainPage {
                     e.printStackTrace();
                     System.err.println("Error processing subject string: " + subject);
                 }
+
                 Label subjectLabel = new Label(subject);
                 subjectLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
                 Label facultyLabel = new Label(faculty);
-                subjectLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+                facultyLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
-                Label descriptionLabel = new Label(description);
-                descriptionLabel.setStyle("-fx-font-size: 12px;");
+                // Use Text for description with wrapping enabled
+                Text descriptionText = new Text(description);
+                descriptionText.setStyle("-fx-font-size: 12px;");
+                descriptionText.setWrappingWidth(300); // Wrap text within the courseBox's width
 
                 Label enrolledLabel = new Label("Quiz Taken: " + quizTaken);
                 enrolledLabel.setStyle("-fx-font-size: 12px;");
@@ -131,13 +134,13 @@ public class StudentMainPage {
                     }
                 });
 
-                courseBox.getChildren().addAll(subjectLabel,facultyLabel, descriptionLabel, enrolledLabel, takeQuizButton);
+                courseBox.getChildren().addAll(subjectLabel, facultyLabel, descriptionText, enrolledLabel, takeQuizButton);
 
                 // Add the course box to the grid
                 courseGrid.add(courseBox, column, row);
 
                 column++;
-                if (column == 4) { // Move to the next row after 4 columns
+                if (column == 3) { // Move to the next row after 4 columns
                     column = 0;
                     row++;
                 }
@@ -146,4 +149,5 @@ public class StudentMainPage {
             e.printStackTrace();
         }
     }
+
 }
