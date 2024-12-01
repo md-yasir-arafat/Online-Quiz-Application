@@ -19,6 +19,7 @@ public class AddQuizPage {
     private GridPane questionGrid; // Grid for questions
     @FXML
     private Button saveButton; // Save button
+    private static String filePath;
 
     private List<Question> questions = new ArrayList<>(); // List to store questions
 
@@ -32,7 +33,7 @@ public class AddQuizPage {
         }
 
         // Save the quiz when the "Save Quiz" button is clicked
-        saveButton.setOnAction(e -> saveQuizToFile());
+        saveButton.setOnAction(e -> saveQuizToFile(filePath));
     }
 
     // Method to add a new question row dynamically
@@ -69,21 +70,40 @@ public class AddQuizPage {
         option4Field.textProperty().addListener((obs, oldVal, newVal) -> question.setOption4(newVal));
     }
 
-    // Method to save the quiz to a file
-    private void saveQuizToFile() {
+    private void saveQuizToFile(String quizDir) {
         String title = quizTitleField.getText().trim();
         if (title.isEmpty()) {
-            System.out.println("Quiz title is required.");
+            showErrorMessage("Quiz title is required.");
             return;
         }
 
-        if (questions.stream().allMatch(q -> q.getText().isEmpty())) {
-            System.out.println("At least one question must be filled.");
+        boolean hasValidQuestion = questions.stream()
+                .anyMatch(q -> !q.getText().isEmpty() && !q.getAnswer().isEmpty());
+
+        if (!hasValidQuestion) {
+            showErrorMessage("At least one question with a correct answer must be filled.");
             return;
         }
 
-        // Create the file in the "Questions" directory
-        File file = new File("src/main/resources/Questions/" + title.replaceAll("\\s+", "_") + ".csv");
+        // Ensure the directory exists
+        File directory = new File(filePath);
+        if (!directory.exists() && !directory.mkdirs()) {
+            showErrorMessage("Could not create directory for quizzes.");
+            return;
+        }
+
+        // Determine the next file name
+        int nextQuizNumber = 1;
+        for (File file : directory.listFiles()) {
+            String name = file.getName();
+            if (name.matches("quiz\\d+\\.csv")) {
+                int currentNumber = Integer.parseInt(name.replaceAll("\\D", ""));
+                nextQuizNumber = Math.max(nextQuizNumber, currentNumber + 1);
+            }
+        }
+        String fileName = "quiz" + nextQuizNumber + ".csv";
+        File file = new File(directory, fileName);
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             // Write the title
             writer.write(title);
@@ -91,19 +111,34 @@ public class AddQuizPage {
 
             // Write all questions
             for (Question question : questions) {
-                writer.write(String.format("%s,%s,%s,%s,%s",
-                        question.getText(),
-                        question.getAnswer(),
-                        question.getOption2(),
-                        question.getOption3(),
-                        question.getOption4()));
-                writer.newLine();
+                if (!question.getText().isEmpty() && !question.getAnswer().isEmpty()) {
+                    writer.write(String.format("%s,%s,%s,%s,%s",
+                            question.getText(),
+                            question.getAnswer(),
+                            question.getOption2(),
+                            question.getOption3(),
+                            question.getOption4()));
+                    writer.newLine();
+                }
             }
 
-            System.out.println("Quiz saved successfully: " + file.getAbsolutePath());
+            showSuccessMessage("Quiz saved successfully as: " + file.getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            showErrorMessage("Error saving quiz: " + e.getMessage());
         }
+    }
+
+
+    // Utility to show error messages
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    // Utility to show success messages
+    private void showSuccessMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+        alert.showAndWait();
     }
 
     // Inner class to represent a Question
@@ -164,7 +199,8 @@ public class AddQuizPage {
     }
 
     // Method to open the AddQuiz page
-    public static void openAddQuizPage() throws IOException {
+    public static void openAddQuizPage(String quizDir) throws IOException {
+        filePath = quizDir;
         FXMLLoader fxmlLoader = new FXMLLoader(AddQuizPage.class.getResource("/com/quizapp/AddQuiz.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage addQuizStage = new Stage();

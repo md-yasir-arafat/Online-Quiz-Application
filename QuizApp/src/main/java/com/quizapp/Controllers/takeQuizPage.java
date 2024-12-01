@@ -1,5 +1,6 @@
 package com.quizapp.Controllers;
 
+import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TakeQuizPage {
 
@@ -18,10 +20,12 @@ public class TakeQuizPage {
     @FXML
     private Button submitButton; // Button for submitting the quiz
     private static String filePath;
+    private static String courseName;
 
     private List<Question> questions = new ArrayList<>(); // List to store questions and options
     private Map<Integer, ToggleGroup> toggleGroups = new HashMap<>(); // Toggle groups for radio buttons
-
+    private final String fileName = "src/main/resources/studentInfo/" + App.username + ".csv";
+    private final String leaderBoard = "src/main/resources/leaderboard/leader.txt";
     @FXML
     public void initialize() {
         System.out.println(filePath);
@@ -117,8 +121,104 @@ public class TakeQuizPage {
             alert.setHeaderText("Quiz Completed!");
             alert.setContentText("You scored: " + String.format("%.2f", score) + " out of 100");
             alert.showAndWait();
+
+            updateQuizTakenCount(courseName);
+
+            try {
+                updateLeaderFile((int) score);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
     }
+
+    private void updateLeaderFile(int scoreToAdd) throws IOException {
+        // Read the leaderboard file
+        List<String[]> leaders = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(leaderBoard))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(" ");
+                leaders.add(data);
+            }
+        }
+
+        // Update or add the user score
+        boolean userFound = false;
+        for (String[] leader : leaders) {
+            if (leader[1].equals(App.username)) {
+                int currentScore = Integer.parseInt(leader[0].trim());
+                leader[0] = String.valueOf(currentScore + scoreToAdd);
+                userFound = true;
+                break;
+            }
+        }
+        if (!userFound) {
+            leaders.add(new String[]{String.valueOf(scoreToAdd), App.username});
+        }
+
+        // Sort the leaderboard by scores in descending order
+        leaders.sort((a, b) -> Integer.parseInt(b[0]) - Integer.parseInt(a[0]));
+
+        // Write back to the leaderboard file
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(leaderBoard))) {
+            for (String[] leader : leaders) {
+                bw.write(String.join(" ", leader));
+                bw.newLine();
+            }
+        }
+    }
+
+    private void updateQuizTakenCount(String courseName) {
+        String file = "src/main/resources/studentInfo/" + App.username + ".csv";
+        List<String[]> rows = new ArrayList<>();
+
+        try {
+            // Step 1: Read the CSV file
+            System.out.println("Debug: Reading CSV file at " + file);
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    System.out.println("Debug: Read line: " + line);
+                    rows.add(line.split(","));
+                }
+            }
+
+            // Step 2: Update quiz count
+            boolean courseFound = false;
+            for (String[] row : rows) {
+                if (row[0].equals(courseName)) {
+                    int quizTakenCount = Integer.parseInt(row[2].trim());
+                    quizTakenCount++;
+                    row[2] = String.valueOf(quizTakenCount);
+                    System.out.println("Debug: Updated course " + courseName + " to " + quizTakenCount);
+                    courseFound = true;
+                    break;
+                }
+            }
+
+            if (!courseFound) {
+                System.err.println("Error: Course " + courseName + " not found in CSV.");
+                return;
+            }
+
+            // Step 3: Write back to the CSV file
+            System.out.println("Debug: Writing updates to CSV file at " + file);
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (String[] row : rows) {
+                    String line = String.join(",", row);
+                    System.out.println("Debug: Writing line: " + line);
+                    bw.write(line);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     // Inner class to represent a Question
     private static class Question {
@@ -146,9 +246,18 @@ public class TakeQuizPage {
     }
 
     // Method to open the TakeQuiz page
-    public static void openTakeQuizPage(String quizDir) throws IOException {
+    public static void openTakeQuizPage(String quizDir, AtomicReference<String> fileName) throws IOException {
 
-        filePath = quizDir;
+        filePath = quizDir+ String.valueOf(fileName);
+
+        courseName = quizDir;
+
+        courseName = courseName.endsWith("/") ? courseName.substring(0, courseName.length() - 1) : courseName;
+
+        // Extract the folder name
+        courseName = courseName.substring(courseName.lastIndexOf("/") + 1);
+
+
         FXMLLoader fxmlLoader = new FXMLLoader(TakeQuizPage.class.getResource("/com/quizapp/TakeQuiz.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage takeQuizStage = new Stage();

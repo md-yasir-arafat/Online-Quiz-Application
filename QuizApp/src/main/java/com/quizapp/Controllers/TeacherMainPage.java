@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.quizapp.Controllers.AddCourse.openAddCoursePage;
 import static com.quizapp.Controllers.QuizListTeacher.openCourseListTeacher;
 
 public class TeacherMainPage {
@@ -51,15 +52,14 @@ public class TeacherMainPage {
             System.err.println("Resource not found: " + e.getMessage());
         }
 
-
-        addCourses.setOnAction(e-> {
+        addCourses.setOnAction(e ->{
             try {
-                com.quizapp.Controllers.AddQuizPage.openAddQuizPage();
-
+                openAddCoursePage();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
+
 
         currentCourses(filename);
     }

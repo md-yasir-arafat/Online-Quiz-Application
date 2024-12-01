@@ -50,7 +50,7 @@ public class QuizListTeacher {
 
         addQuiz.setOnAction(e -> {
             try {
-                openAddQuizPage();
+                openAddQuizPage(quizDir);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.AddCourse">
+    <top>
+        <VBox>
+            <!-- Header Section -->
+            <HBox alignment="CENTER" spacing="20">
+                <!-- Left Section: Logo -->
+                <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                    <ImageView fx:id="logoImage" fitHeight="40" fitWidth="40" />
+                    <Label styleClass="logo-text" text="Quize" />
+                </HBox>
+
+                <!-- Center Section: Buttons -->
+                <HBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+                    <Button text="Home" />
+                    <Button fx:id="addCourses" text="Add Course" />
+                </HBox>
+
+                <!-- Right Section: User Info -->
+                <HBox alignment="CENTER_RIGHT" spacing="10" HBox.hgrow="ALWAYS">
+                    <ImageView fx:id="userImage" fitHeight="40" fitWidth="40" />
+                    <Button text="User" />
+                </HBox>
+            </HBox>
+
+            <!-- Separator -->
+            <Separator orientation="HORIZONTAL" />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER" padding="20">
+            <Text text="Add New Course" styleClass="header-text" />
+
+            <!-- Title Field -->
+            <Label text="Course Title:"/>
+            <TextField fx:id="courseTitleField" promptText="Enter the course title" />
+
+            <!-- Description Field -->
+            <Label text="Course Description:"/>
+            <TextArea fx:id="courseDescriptionField" promptText="Enter the course description" wrapText="true" prefHeight="100" />
+
+            <!-- Submit Button -->
+            <Button text="Create Course" fx:id="createCourseButton" onAction="#createCourse"/>
+        </VBox>
+    </center>
+</BorderPane>

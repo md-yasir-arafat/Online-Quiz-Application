@@ -35,7 +35,6 @@ public class QuizListStudent {
     private static String quizDir = "src/main/resources/Courses/";
     private static final String LOGO_PATH = "/images/logo.png";
     private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-    private static String quizFile = "";
 
     @FXML
     public void initialize() {
@@ -46,14 +45,6 @@ public class QuizListStudent {
         } catch (NullPointerException e) {
             System.err.println("Resource not found: " + e.getMessage());
         }
-
-        startQuiz.setOnAction(e -> {
-            try {
-                openTakeQuizPage(quizDir);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
 
         courseList();
         addCoursesFromMap();
@@ -81,8 +72,7 @@ public class QuizListStudent {
             // Add an action listener to the button to handle quiz-taking
             takeQuizButton.setOnAction(e -> {
                 try {
-                    fileName.set(quizDir + fileName.get());
-                    openTakeQuizPage(fileName.get()); // Call the method to take the quiz
+                    openTakeQuizPage(quizDir,fileName); // Call the method to take the quiz
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -154,7 +144,6 @@ public class QuizListStudent {
     }
 
     public static void openCourseListStudent(String quizFileName) throws IOException {
-        quizFile = quizFileName;
         quizDir = "src/main/resources/Courses/" + quizFileName + "/";
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/QuizListStudent.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

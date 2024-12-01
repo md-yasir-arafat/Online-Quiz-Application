@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.StudentMainPage">
+<BorderPane stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quizapp.Controllers.EnrollPage">
     <top>
         <VBox styleClass="top-section" style="-fx-background-color: white;">
             <!-- Header Section -->
@@ -18,9 +18,9 @@
 
                 <!-- Center Section: Buttons -->
                 <HBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
-                    <Button text="Home" />
-                    <Button fx:id="Courses" text="Enroll"/>
-                    <Button fx:id="leaderBoard" text="LeaderBoard" />
+                    <Button fx:id="homeButton" text="Home" />
+                    <Button text="Add New Courses" styleClass="active-button" />
+                    <Button fx:id="leaderBoardButton" text="LeaderBoard" />
                 </HBox>
 
                 <!-- Right Section: User Info -->
@@ -33,14 +33,10 @@
     </top>
     <!-- Separator -->
     <Separator prefHeight="5.0" />
-    <center >
-        <HBox>
-            <Label alignment="CENTER" text="My Courses" />
-        </HBox>
-
-        <VBox>
-            <GridPane fx:id="courseGrid" alignment="CENTER"/>
-        </VBox>
+    <center>
+        <!-- Dynamic Courses Section -->
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <GridPane fx:id="courseGrid" styleClass="course-grid" />
+        </ScrollPane>
     </center>
-
 </BorderPane>

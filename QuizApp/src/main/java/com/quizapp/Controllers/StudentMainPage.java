@@ -1,8 +1,6 @@
 package com.quizapp.Controllers;
 
-import com.quizapp.Actions.StudentMain;
 import com.quizapp.App;
-import com.quizapp.Controllers.QuizListStudent;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -19,8 +17,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.quizapp.Controllers.EnrollPage.openEnrollPage;
+import static com.quizapp.Controllers.LeaderboardPage.openLeaderBoard;
 import static com.quizapp.Controllers.QuizListStudent.openCourseListStudent;
-import static com.quizapp.Controllers.QuizListTeacher.openCourseListTeacher;
 
 public class StudentMainPage {
     @FXML
@@ -54,7 +53,15 @@ public class StudentMainPage {
 
         Courses.setOnAction(e -> {
             try {
-                StudentMain.openCourses();
+                openEnrollPage();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        leaderBoard.setOnAction(e -> {
+            try {
+                openLeaderBoard();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
