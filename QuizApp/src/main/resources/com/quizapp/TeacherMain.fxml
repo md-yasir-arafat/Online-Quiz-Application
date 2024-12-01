@@ -35,7 +35,7 @@
     </top>
 
     <center>
-        <VBox fillWidth="true">
+        <VBox>
             <GridPane fx:id="numberGrid" alignment="CENTER"/>
         </VBox>
 

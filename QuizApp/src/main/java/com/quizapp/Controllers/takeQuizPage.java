@@ -17,14 +17,16 @@ public class TakeQuizPage {
     private GridPane questionGrid; // Grid for displaying questions and options
     @FXML
     private Button submitButton; // Button for submitting the quiz
+    private static String filePath;
 
     private List<Question> questions = new ArrayList<>(); // List to store questions and options
     private Map<Integer, ToggleGroup> toggleGroups = new HashMap<>(); // Toggle groups for radio buttons
 
     @FXML
     public void initialize() {
+        System.out.println(filePath);
         try {
-            loadQuestionsFromFile("src/main/resources/Courses/Java_Object_Oriented_Programing_by_MSRb/quiz1.csv");
+            loadQuestionsFromFile();
             displayQuestions();
             setupSubmitAction();
         } catch (IOException e) {
@@ -33,7 +35,7 @@ public class TakeQuizPage {
     }
 
     // Method to load questions from the CSV file
-    private void loadQuestionsFromFile(String filePath) throws IOException {
+    private void loadQuestionsFromFile() throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
             System.out.println("Quiz file not found: " + filePath);
@@ -144,7 +146,9 @@ public class TakeQuizPage {
     }
 
     // Method to open the TakeQuiz page
-    public static void openTakeQuizPage() throws IOException {
+    public static void openTakeQuizPage(String quizDir) throws IOException {
+
+        filePath = quizDir;
         FXMLLoader fxmlLoader = new FXMLLoader(TakeQuizPage.class.getResource("/com/quizapp/TakeQuiz.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage takeQuizStage = new Stage();
