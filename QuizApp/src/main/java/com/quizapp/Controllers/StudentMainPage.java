@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import static com.quizapp.Controllers.EnrollPage.openEnrollPage;
 import static com.quizapp.Controllers.LeaderboardPage.openLeaderBoard;
-import static com.quizapp.Controllers.QuizListStudent.openCourseListStudent;
+import static com.quizapp.Controllers.QuizListStudentPage.openCourseListStudent;
 
 public class StudentMainPage {
     @FXML

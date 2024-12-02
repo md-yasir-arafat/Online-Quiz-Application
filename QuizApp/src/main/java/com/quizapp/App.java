@@ -2,11 +2,14 @@ package com.quizapp;
 
 import com.quizapp.Actions.Login;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class App extends Application {
     public static double sceneWidth = 0;
@@ -15,9 +18,6 @@ public class App extends Application {
     public static final String LOGO_PATH = "/images/logo.png";
     public static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
     public static final String BACKGROUND_Main_IMAGE_PATH = "/images/Student-Studying.jpg";
-
-
-
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -28,6 +28,44 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         sceneWidth = scene.getWidth();
+
+        // Load leaderboard data in a background thread
+        loadLeaderboardInBackground();
+    }
+
+    private void loadLeaderboardInBackground() {
+        // Create a Task for background processing
+        Task<Void> loadLeaderboardTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                // Simulate a long-running task (e.g., reading the leaderboard file)
+                if (Files.exists(Path.of(leaderBoard))) {
+                    System.out.println("Loading leaderboard...");
+                    String data = Files.readString(Path.of(leaderBoard));
+                    System.out.println("Leaderboard data loaded: \n" + data);
+                } else {
+                    System.out.println("Leaderboard file not found.");
+                }
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                System.out.println("Leaderboard loaded successfully.");
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                System.err.println("Failed to load leaderboard: " + getException().getMessage());
+            }
+        };
+
+        // Run the task in a separate thread
+        Thread backgroundThread = new Thread(loadLeaderboardTask);
+        backgroundThread.setDaemon(true); // Ensures the thread stops when the application exits
+        backgroundThread.start();
     }
 
     public static void main(String[] args) {

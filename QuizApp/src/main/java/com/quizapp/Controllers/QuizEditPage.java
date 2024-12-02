@@ -1,6 +1,6 @@
 package com.quizapp.Controllers;
 
-import com.quizapp.Actions.Login;
+import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,89 +15,83 @@ import java.util.List;
 public class QuizEditPage {
 
     @FXML
-    private GridPane titleGrid; // For the quiz title
+    private GridPane titleGrid; // Grid for displaying the quiz title
     @FXML
-    private GridPane questionGrid; // For quiz questions
+    private GridPane questionGrid; // Grid for displaying questions and options
     @FXML
-    private Button saveButton; // Save button (can be added in FXML)
+    private Button saveButton; // Button for saving the quiz
 
-    private String title; // Quiz title
-    private List<Question> questions = new ArrayList<>(); // List of questions
-    private static String dir = "";
+    private String quizTitle = ""; // Title of the quiz
+    private final List<Question> questions = new ArrayList<>(); // List to store questions
+    private static String filePath; // File path for the quiz file
 
-    /**
-     * Initialize method called after the FXML is loaded.
-     * It sets up event listeners and loads the quiz data.
-     */
     @FXML
-    private void initialize() {
-        // Add action for the save button
-        if (saveButton != null) {
-            saveButton.setOnAction(event -> saveQuizToFile());
-        }
-
-        // Load quiz data if a file path is provided
-        if (dir != null && !dir.trim().isEmpty()) {
+    public void initialize() {
+        if (filePath != null && !filePath.trim().isEmpty()) {
             loadQuizData();
+            displayTitle();
+            displayQuestions();
+            setupSaveAction();
+        } else {
+            System.out.println("File path not provided.");
         }
     }
 
-    // Method to load quiz data from the file
+    // Method to load quiz data from a file
     private void loadQuizData() {
-        if (dir == null || dir.trim().isEmpty()) {
-            System.out.println("File path is not set or invalid.");
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("Quiz file not found: " + filePath);
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(dir))) {
-            // Read the title
-            title = reader.readLine();
-            if (title != null && !title.trim().isEmpty()) {
-                displayTitle(title);
-            } else {
-                System.out.println("Title is missing in the quiz file.");
-            }
-
-            // Read and store questions
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            quizTitle = reader.readLine(); // Read the first line as the title
             String line;
-            questions.clear();
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",", 5); // Split into 5 parts: question, answer, option2, option3, option4
-                if (parts.length == 5) {
-                    questions.add(new Question(parts[0], parts[1], parts[2], parts[3], parts[4]));
-                }
-            }
 
-            displayQuestions();
+            // Parse questions from the file
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 5); // Split line into question, answer, and options
+                if (parts.length < 5) continue; // Skip invalid lines
+
+                questions.add(new Question(parts[0], parts[1], parts[2], parts[3], parts[4]));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void displayTitle(String title) {
-        titleGrid.getChildren().clear(); // Clear existing nodes
-        TextField titleField = new TextField(title);
+    // Method to display the quiz title
+    private void displayTitle() {
+        titleGrid.getChildren().clear();
+        TextField titleField = new TextField(quizTitle);
         titleField.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        titleField.textProperty().addListener((observable, oldValue, newValue) -> this.title = newValue);
-        titleGrid.add(titleField, 0, 0); // Add title field to grid
+        titleField.setPrefWidth(Double.MAX_VALUE); // Allow full width
+        titleField.textProperty().addListener((observable, oldValue, newValue) -> quizTitle = newValue);
+
+        titleGrid.add(titleField, 0, 0);
+        GridPane.setHgrow(titleField, Priority.ALWAYS);
     }
 
+    // Method to display questions and their options in the grid
     private void displayQuestions() {
-        questionGrid.getChildren().clear(); // Clear existing nodes
+        questionGrid.getChildren().clear();
 
-        int row = 0;
-        for (Question question : questions) {
-            // Question field
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+
+            // Display question text
             TextField questionField = new TextField(question.getText());
-            questionField.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+            questionField.setStyle("-fx-font-size: 14px;");
+            questionField.setPrefWidth(Double.MAX_VALUE);
             questionField.textProperty().addListener((observable, oldValue, newValue) -> question.setText(newValue));
 
-            // Create a container for the question
-            HBox questionBox = new HBox(5);
-            questionBox.getChildren().add(questionField);
-            questionGrid.add(questionBox, 0, row);
+            HBox questionBox = new HBox(5, questionField);
+            HBox.setHgrow(questionField, Priority.ALWAYS);
 
-            // Options
+            questionGrid.add(questionBox, 0, i * 2);
+
+            // Display options
             VBox optionsBox = new VBox(5);
             optionsBox.getChildren().addAll(
                     createEditableOption("Answer: ", question.getAnswer(), question::setAnswer),
@@ -105,37 +99,37 @@ public class QuizEditPage {
                     createEditableOption("Option 3: ", question.getOption3(), question::setOption3),
                     createEditableOption("Option 4: ", question.getOption4(), question::setOption4)
             );
-            questionGrid.add(optionsBox, 0, ++row); // Add options below the question
 
-            row++; // Increment row for the next question
+            questionGrid.add(optionsBox, 0, i * 2 + 1);
         }
     }
-
 
     // Helper method to create an editable option field
     private HBox createEditableOption(String prefix, String value, Setter setter) {
         Label label = new Label(prefix);
-        label.setStyle("-fx-font-size: 12px;");
-        TextField textField = new TextField(value);
-        textField.textProperty().addListener((observable, oldValue, newValue) -> setter.set(newValue));
-        HBox box = new HBox(5, label, textField);
-        return box;
+        TextField optionField = new TextField(value);
+        optionField.textProperty().addListener((observable, oldValue, newValue) -> setter.set(newValue));
+        return new HBox(5, label, optionField);
     }
 
-    // Method to save changes back to the file
-    @FXML
+    // Method to set up save button action
+    private void setupSaveAction() {
+        saveButton.setOnAction(e -> saveQuizToFile());
+    }
+
+    // Method to save the quiz data back to the file
     private void saveQuizToFile() {
-        if (dir == null || dir.trim().isEmpty()) {
-            System.out.println("File path is not set or invalid.");
+        if (filePath == null || filePath.trim().isEmpty()) {
+            System.out.println("File path not set.");
             return;
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dir))) {
-            // Write the title
-            writer.write(title);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            // Save title
+            writer.write(quizTitle);
             writer.newLine();
 
-            // Write all questions
+            // Save all questions
             for (Question question : questions) {
                 writer.write(String.format("%s,%s,%s,%s,%s",
                         question.getText(),
@@ -209,21 +203,20 @@ public class QuizEditPage {
         }
     }
 
-    public static void openEditQuizPage(String file) throws IOException {
-        dir = file;
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/QuizEdit.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage editQuiz = new Stage();
-        editQuiz.setMaximized(true);
-        editQuiz.setTitle("Edit Quiz");
-        editQuiz.setScene(scene);
-        editQuiz.setMaximized(true);
-        editQuiz.show();
-    }
-
     // Functional interface for setting properties
     @FunctionalInterface
     private interface Setter {
         void set(String value);
+    }
+
+    // Method to open the edit quiz page
+    public static void openEditQuizPage(String file) throws IOException {
+        filePath = file;
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/quizapp/QuizEdit.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load()));
+        stage.setTitle("Edit Quiz");
+        stage.setMaximized(true);
+        stage.show();
     }
 }

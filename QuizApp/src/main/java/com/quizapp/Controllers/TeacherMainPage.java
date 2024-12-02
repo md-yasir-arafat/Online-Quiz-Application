@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static com.quizapp.Controllers.AddCourse.openAddCoursePage;
-import static com.quizapp.Controllers.QuizListTeacher.openCourseListTeacher;
+import static com.quizapp.Controllers.QuizListTeacherPage.openCourseListTeacher;
 
-public class TeacherMainPage {
+public class TeacherMainPage extends com.quizapp.Actions.TeacherMain{
     public Button addCourses;
 
     @FXML
@@ -134,5 +134,4 @@ public class TeacherMainPage {
             e.printStackTrace();
         }
     }
-
 }
