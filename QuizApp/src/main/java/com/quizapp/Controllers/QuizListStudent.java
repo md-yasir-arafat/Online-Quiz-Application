@@ -1,6 +1,7 @@
 package com.quizapp.Controllers;
 
 import com.quizapp.Actions.Login;
+import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,15 +34,14 @@ public class QuizListStudent {
 
     public Map<String, String> quizMap = new HashMap<>();
     private static String quizDir = "src/main/resources/Courses/";
-    private static final String LOGO_PATH = "/images/logo.png";
-    private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
+
 
     @FXML
     public void initialize() {
         try {
             // Initialize the logo and user images
-            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
-            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
+            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.LOGO_PATH))));
+            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.BACKGROUND_IMAGE_PATH))));
         } catch (NullPointerException e) {
             System.err.println("Resource not found: " + e.getMessage());
         }

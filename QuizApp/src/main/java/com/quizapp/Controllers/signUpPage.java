@@ -1,6 +1,7 @@
 package com.quizapp.Controllers;
 
 import com.quizapp.Actions.SignUp;
+import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,7 +13,6 @@ import java.util.Objects;
 public class signUpPage {
 
     public ImageView mainImage;
-    private static final String BACKGROUND_IMAGE_PATH = "/images/Student-Studying.jpg";
     @FXML
     private ImageView logoImage;
 
@@ -34,10 +34,10 @@ public class signUpPage {
     @FXML
     public void initialize() {
         // Load the logo image
-        logoImage.setImage(new Image(getClass().getResourceAsStream("/images/logo.png")));
+        logoImage.setImage(new Image(getClass().getResourceAsStream(App.LOGO_PATH)));
 
         // Initialize the main image and resize it dynamically
-        Image mainBgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH)));
+        Image mainBgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.BACKGROUND_Main_IMAGE_PATH)));
         mainImage.setImage(mainBgImage);
 
         // Add items to the role combo box

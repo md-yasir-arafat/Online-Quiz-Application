@@ -34,23 +34,20 @@ public class StudentMainPage {
     @FXML
     private ImageView userImage;
 
-    private static final String LOGO_PATH = "/images/logo.png";
-    private static final String BACKGROUND_IMAGE_PATH = "/images/temp.jpg";
-    private final String fileName = "src/main/resources/studentInfo/" + App.username + ".csv";
+    private final String fileStudentName = "src/main/resources/studentInfo/" + App.username + ".csv";
 
     @FXML
-    public void initialize() {
+    public void initialize(){
         try {
             // Initialize the logo
-            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
-
+            logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.LOGO_PATH))));
             // Set the user image (background)
-            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH))));
+            userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.BACKGROUND_IMAGE_PATH))));
         } catch (NullPointerException e) {
             System.err.println("Resource not found: " + e.getMessage());
         }
 
-        populateCourses(fileName);
+        populateCourses(fileStudentName);
 
         Courses.setOnAction(e -> {
             try {

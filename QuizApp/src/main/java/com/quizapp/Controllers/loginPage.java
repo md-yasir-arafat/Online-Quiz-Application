@@ -1,6 +1,7 @@
 package com.quizapp.Controllers;
 
 import com.quizapp.Actions.Login;
+import com.quizapp.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -34,17 +35,13 @@ public class loginPage {
     @FXML
     private Button signUpButton;
 
-    // Paths for resources
-    private static final String LOGO_PATH = "/images/logo.png";
-    private static final String BACKGROUND_IMAGE_PATH = "/images/Student-Studying.jpg";
-
     @FXML
     public void initialize() {
         // Initialize the logo
-        logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(LOGO_PATH))));
+        logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.LOGO_PATH))));
 
         // Initialize the main image
-        Image mainBgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(BACKGROUND_IMAGE_PATH)));
+        Image mainBgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(App.BACKGROUND_Main_IMAGE_PATH)));
         mainImage.setImage(mainBgImage);
 
 
