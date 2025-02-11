@@ -19,7 +19,7 @@
                 <!-- Center Section: Buttons -->
                 <HBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
                     <Button text="Home" />
-                    <Button fx:id="Courses" text="Enroll"/>
+                    <Button fx:id="enroll" text="Enroll"/>
                     <Button fx:id="leaderBoard" text="LeaderBoard" />
                 </HBox>
 

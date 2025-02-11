@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-public class Login {
+public class Login extends  App{
 
     private final TextField usernameField;
     private final PasswordField passwordField;
@@ -56,12 +56,12 @@ public class Login {
             messageLabel.setTextFill(Color.GREEN);
             messageLabel.setText("Login successful!\nYou are a teacher.");
             openTeacherMain();  // Open teacher window
-            closeCurrentWindow();
+            closeCurrentWindow(loginButton);
         } else if (loginResult == 2) {  // Student login
             messageLabel.setTextFill(Color.GREEN);
             messageLabel.setText("Login successful!\nYou are a student.");
             openStudentMain();
-            closeCurrentWindow();
+            closeCurrentWindow(loginButton);
         } else {  // Invalid login
             messageLabel.setTextFill(Color.RED);
             messageLabel.setText("Invalid username or password.");
@@ -106,7 +106,7 @@ public class Login {
         signUpStage.show(); // Open sign-up window
     }
 
-    public void openStudentMain() throws IOException {
+    public static void openStudentMain() throws IOException {
         // Ensure the path to FXML is correct and matches runtime packaging
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/StudentMain.fxml"));
 
@@ -146,12 +146,6 @@ public class Login {
         }
 
         return false; // Invalid credentials
-    }
-
-    // Close the current login window
-    public void closeCurrentWindow() {
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.close();  // Close the current stage (login window)
     }
 }
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class TakeQuiz {
+public class TakeQuiz extends App{
     protected static String filePath;
     protected static String courseName;
 

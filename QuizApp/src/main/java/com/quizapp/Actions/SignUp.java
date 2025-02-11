@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-public class SignUp {
+public class SignUp extends App{
     private final TextField name;
     private final TextField nickname;
     private final TextField username;

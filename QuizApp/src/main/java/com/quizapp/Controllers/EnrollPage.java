@@ -1,25 +1,27 @@
 package com.quizapp.Controllers;
 
-import com.quizapp.App;
+import com.quizapp.Actions.Enroll;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Objects;
 
-public class EnrollPage extends com.quizapp.Actions.Enroll{
+import static com.quizapp.Actions.Login.openStudentMain;
+import static com.quizapp.Controllers.LeaderboardPage.openLeaderBoard;
 
+public class EnrollPage extends Enroll {
+
+    @FXML
+    private Button home;
+    @FXML
+    private Button leaderBoard;
     @FXML
     private GridPane courseGrid;
     @FXML
@@ -40,6 +42,24 @@ public class EnrollPage extends com.quizapp.Actions.Enroll{
         } catch (Exception e) {
             System.err.println("Error loading images: " + e.getMessage());
         }
+
+        leaderBoard.setOnAction(e -> {
+            try {
+                openLeaderBoard();
+                closeCurrentWindow(leaderBoard);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        home.setOnAction(e -> {
+            try {
+                openStudentMain();
+                closeCurrentWindow(home);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         // Populate the course grid
         populateCourses(COURSES_FILE);

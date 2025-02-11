@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -66,6 +67,12 @@ public class App extends Application {
         Thread backgroundThread = new Thread(loadLeaderboardTask);
         backgroundThread.setDaemon(true); // Ensures the thread stops when the application exits
         backgroundThread.start();
+    }
+
+    // Close the current login window
+    public static void closeCurrentWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();  // Close the current stage (login window)
     }
 
     public static void main(String[] args) {

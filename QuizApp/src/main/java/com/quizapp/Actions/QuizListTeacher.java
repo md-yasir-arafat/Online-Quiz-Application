@@ -1,5 +1,6 @@
 package com.quizapp.Actions;
 
+import com.quizapp.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuizListTeacher{
+public class QuizListTeacher extends App {
     public Map<String, String> quizMap = new HashMap<>();
     protected static String quizDir = "src/main/resources/Courses/";
     protected static String quizFile = "";

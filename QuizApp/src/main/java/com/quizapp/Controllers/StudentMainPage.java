@@ -1,5 +1,6 @@
 package com.quizapp.Controllers;
 
+import com.quizapp.Actions.StudentMain;
 import com.quizapp.App;
 
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,9 +24,9 @@ import static com.quizapp.Controllers.EnrollPage.openEnrollPage;
 import static com.quizapp.Controllers.LeaderboardPage.openLeaderBoard;
 import static com.quizapp.Controllers.QuizListStudentPage.openCourseListStudent;
 
-public class StudentMainPage {
+public class StudentMainPage extends StudentMain {
     @FXML
-    private Button Courses;
+    private Button enroll;
     @FXML
     private Button leaderBoard;
     @FXML
@@ -49,9 +51,10 @@ public class StudentMainPage {
 
         populateCourses(fileStudentName);
 
-        Courses.setOnAction(e -> {
+        enroll.setOnAction(e -> {
             try {
                 openEnrollPage();
+                closeCurrentWindow(enroll);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -60,6 +63,7 @@ public class StudentMainPage {
         leaderBoard.setOnAction(e -> {
             try {
                 openLeaderBoard();
+                closeCurrentWindow(leaderBoard);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -146,5 +150,4 @@ public class StudentMainPage {
             e.printStackTrace();
         }
     }
-
 }

@@ -1,15 +1,14 @@
 package com.quizapp.Controllers;
 
+import com.quizapp.Actions.Leaderboard;
 import com.quizapp.App;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,8 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class LeaderboardPage {
+import static com.quizapp.Actions.Enroll.openEnrollPage;
+import static com.quizapp.Actions.Login.openStudentMain;
 
+public class LeaderboardPage extends Leaderboard {
+    @FXML
+    private Button home;
+    @FXML
+    private Button enroll;
     @FXML
     private TableView<Player> leaderboardTable;
 
@@ -60,6 +65,24 @@ public class LeaderboardPage {
 
         // Populate the leaderboard with data from the file
         leaderboardTable.getItems().setAll(loadLeaderboardData());
+
+        home.setOnAction(e -> {
+            try {
+                openStudentMain();
+                closeCurrentWindow(home);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        enroll.setOnAction(e -> {
+            try {
+                openEnrollPage();
+                closeCurrentWindow(enroll);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     /**
@@ -109,18 +132,5 @@ public class LeaderboardPage {
         public int getScore() {
             return score;
         }
-    }
-
-    /**
-     * Opens the leaderboard page in a new window.
-     */
-    public static void openLeaderBoard() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(LeaderboardPage.class.getResource("/com/quizapp/LeaderBoard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setTitle("Leaderboard");
-        stage.setMaximized(true);
-        stage.setScene(scene);
-        stage.show();
     }
 }

@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.Objects;
 
-public class Enroll {
+public class Enroll extends App{
     protected VBox createCourseBox(String courseName, String description) {
         VBox courseBox = new VBox(10);
         courseBox.setAlignment(Pos.CENTER);
