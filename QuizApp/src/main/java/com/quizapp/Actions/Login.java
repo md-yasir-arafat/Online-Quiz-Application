@@ -28,28 +28,9 @@ public class Login extends  App{
         this.messageLabel = messageLabel;
     }
 
-    // Method to set up the actions
-    public void setupActions() {
-        // Handle pressing "Enter" in username field to move to password
-        usernameField.setOnAction(e -> passwordField.requestFocus());
-
-        // Handle pressing "Enter" in password field to trigger login
-        passwordField.setOnAction(e -> loginButton.fire());
-
-        // Handle login button action
-        loginButton.setOnAction(e -> {
-            try {
-                handleLoginAction();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-    }
 
     // Handle the login logic
-    private void handleLoginAction() throws IOException {
-        String username = usernameField.getText().trim();
-        String password = passwordField.getText().trim();
+    public void handleLoginAction(String username, String password) throws IOException {
         int loginResult = handleLogin(username, password);
 
         if (loginResult == 1) {  // Teacher login

@@ -31,7 +31,7 @@ public class App extends Application {
         sceneWidth = scene.getWidth();
 
         // Load leaderboard data in a background thread
-        loadLeaderboardInBackground();
+        //loadLeaderboardInBackground();
     }
 
     private void loadLeaderboardInBackground() {

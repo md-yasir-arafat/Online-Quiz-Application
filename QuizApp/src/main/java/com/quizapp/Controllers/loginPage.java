@@ -55,6 +55,7 @@ public class loginPage {
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode().toString().equals("ENTER")) {
                 loginButton.requestFocus();
+                loginButton.fire();
             }
         });
 
@@ -66,7 +67,13 @@ public class loginPage {
                 throw new RuntimeException(ex);
             }
         });
-        loginButton.setOnAction(e -> handleLogin());
+        loginButton.setOnAction(e -> {
+            try {
+                handleLogin();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     private void handleSignUp() throws IOException {
@@ -76,14 +83,14 @@ public class loginPage {
         closeCurrentWindow();
     }
 
-    private void handleLogin() {
+    private void handleLogin() throws IOException {
         // Validate login credentials
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
 
         // Delegate the event handling to LoginActions class
         Login login = new Login(usernameField, passwordField, loginButton, lblMessage);
-        login.setupActions();  // Call the method to set up the actions
+        login.handleLoginAction(username,password);  // Call the method to set up the actions
     }
 
     // Close the current login window
