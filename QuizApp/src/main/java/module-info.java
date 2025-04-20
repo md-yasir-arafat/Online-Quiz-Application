@@ -3,6 +3,7 @@ module com.quizapp {
     requires javafx.fxml;
     requires java.desktop;
     requires kotlin.stdlib;
+    requires jdk.incubator.vector;
 
 
     opens com.quizapp to javafx.fxml;

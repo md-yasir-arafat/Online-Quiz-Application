@@ -15,22 +15,8 @@ import java.io.*;
 
 public class Login extends  App{
 
-    private final TextField usernameField;
-    private final PasswordField passwordField;
-    private  Button loginButton;
-    private final Label messageLabel;
-
-    // Constructor to pass the references of UI components
-    public Login(TextField usernameField, PasswordField passwordField, Button loginButton, Label messageLabel) {
-        this.usernameField = usernameField;
-        this.passwordField = passwordField;
-        this.loginButton = loginButton;
-        this.messageLabel = messageLabel;
-    }
-
-
     // Handle the login logic
-    public void handleLoginAction(String username, String password) throws IOException {
+    public void handleLoginAction(String username, String password, Label messageLabel, Button loginButton) throws IOException {
         int loginResult = handleLogin(username, password);
 
         if (loginResult == 1) {  // Teacher login

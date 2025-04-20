@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class loginPage {
+public class loginPage extends com.quizapp.Actions.Login{
 
     // FXML Components
     @FXML
@@ -34,6 +34,7 @@ public class loginPage {
 
     @FXML
     private Button signUpButton;
+
 
     @FXML
     public void initialize() {
@@ -78,19 +79,16 @@ public class loginPage {
 
     private void handleSignUp() throws IOException {
         // Handle sign-up logic here
-        Login.openSignUpWindow();
+        openSignUpWindow();
         lblMessage.setText("Sign up button clicked!");
         closeCurrentWindow();
     }
 
     private void handleLogin() throws IOException {
-        // Validate login credentials
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        // Delegate the event handling to LoginActions class
-        Login login = new Login(usernameField, passwordField, loginButton, lblMessage);
-        login.handleLoginAction(username,password);  // Call the method to set up the actions
+        handleLoginAction(username,password,lblMessage,loginButton);  // Call the method to set up the actions
     }
 
     // Close the current login window

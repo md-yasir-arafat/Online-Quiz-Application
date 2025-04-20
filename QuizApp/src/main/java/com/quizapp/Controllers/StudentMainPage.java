@@ -127,9 +127,11 @@ public class StudentMainPage extends StudentMain {
                 enrolledLabel.setStyle("-fx-font-size: 12px;");
 
                 Button takeQuizButton = new Button("Take Quiz");
+                String finalSubject = subject;
+                String finalFaculty = faculty;
                 takeQuizButton.setOnAction(e -> {
                     try {
-                        openCourseListStudent(quizFileName);
+                        openCourseListStudent(quizFileName, finalSubject, finalFaculty,description);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

@@ -12,7 +12,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 public class QuizListStudent extends App {
+
+    protected static String subject;
+    protected static String faculty;
+    protected static String description;
+
     public Map<String, String> quizMap = new HashMap<>();
     protected static String quizDir = "src/main/resources/Courses/";
 
@@ -73,7 +80,11 @@ public class QuizListStudent extends App {
         }
     }
 
-    public static void openCourseListStudent(String quizFileName) throws IOException {
+    public static void openCourseListStudent(String quizFileName, String subject, String faculty, String description) throws IOException {
+        QuizListStudent.subject = subject;
+        QuizListStudent.faculty = faculty;
+        QuizListStudent.description = description;
+
         quizDir = "src/main/resources/Courses/" + quizFileName + "/";
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/quizapp/QuizListStudent.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
